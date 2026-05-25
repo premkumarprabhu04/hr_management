@@ -8,6 +8,7 @@ const HRDashboard = ({ onLogout }) => {
   const [leaveActiveTab, setLeaveActiveTab] = useState('pending');
   const [reportsActiveTab, setReportsActiveTab] = useState('overview');
   const [salaryActiveTab, setSalaryActiveTab] = useState('payroll');
+  const [attendanceViewMode, setAttendanceViewMode] = useState('daily');
   const currentDate = "Thursday, 15 May 2026";
 
   const stats = [
@@ -51,7 +52,13 @@ const HRDashboard = ({ onLogout }) => {
           <p>{currentDate}</p>
         </div>
         <div className="alerts-badge">
-          <span>🔔</span> 3 alerts
+          <span className="alerts-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 01-3.46 0" />
+            </svg>
+          </span>
+          3 alerts
         </div>
       </header>
 
@@ -130,14 +137,32 @@ const HRDashboard = ({ onLogout }) => {
         </div>
         <div className="header-actions">
           <div className="search-box">
-            <span className="icon">🔍</span>
+            <span className="icon icon-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M16.65 16.65L21 21" />
+              </svg>
+            </span>
             <input type="text" placeholder="Search..." />
           </div>
           <button className="btn-filter">
-            <span className="icon">⚙️</span> Filter
+            <span className="icon icon-filter">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 6h16" />
+                <path d="M7 12h10" />
+                <path d="M10 18h4" />
+              </svg>
+            </span>
+            Filter
           </button>
           <button className="btn-add-employee" onClick={() => setIsAddEmployeeModalOpen(true)}>
-            <span className="icon">➕</span> Add employee
+            <span className="icon icon-add">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+              </svg>
+            </span>
+            Add employee
           </button>
         </div>
       </header>
@@ -192,6 +217,22 @@ const HRDashboard = ({ onLogout }) => {
     { initials: "LR", name: "Lakshmi Rajan", dept: "Marketing", punchIn: "—", punchOut: "—", hours: "—", status: "On leave", colorClass: "blue" }
   ];
 
+  const attendanceCalendarDays = [
+    { date: '5', status: 'present' }, { date: '6', status: 'late' }, { date: '7', status: 'present' }, { date: '8', status: 'present' },
+    { date: '9', status: 'present' }, { date: '10', status: 'off' }, { date: '11', status: 'off' },
+    { date: '12', status: 'off' }, { date: '13', status: 'present' }, { date: '14', status: 'present' }, { date: '15', status: 'absent' }, { date: '16', status: 'present' }, { date: '17', status: 'off' }, { date: '18', status: 'off' },
+    { date: '19', status: 'present' }, { date: '20', status: 'present' }, { date: '21', status: 'present' }, { date: '22', status: 'present' }, { date: '23', status: 'off' }, { date: '24', status: 'off' }, { date: '25', status: 'present' },
+    { date: '26', status: 'halfday' }, { date: '27', status: 'present' }, { date: '28', status: 'present' }, { date: '29', status: 'present' }, { date: '30', status: 'off' }, { date: '31', status: 'off' }
+  ];
+
+  const monthlySummaryStats = [
+    { label: 'Present', value: '23', colorClass: 'summary-green' },
+    { label: 'Absent', value: '1', colorClass: 'summary-red' },
+    { label: 'Late', value: '3', colorClass: 'summary-yellow' },
+    { label: 'Half-day', value: '1', colorClass: 'summary-blue' },
+    { label: 'Avg hrs/day', value: '9h 05m', colorClass: 'summary-gray' }
+  ];
+
   const renderAttendanceContent = () => (
     <>
       <header className="dashboard-header attendance-header">
@@ -201,66 +242,133 @@ const HRDashboard = ({ onLogout }) => {
         </div>
         <div className="header-actions">
           <div className="toggle-group">
-            <button className="toggle-btn active">Daily log</button>
-            <button className="toggle-btn">Monthly summary</button>
+            <button
+              className={`toggle-btn ${attendanceViewMode === 'daily' ? 'active' : ''}`}
+              onClick={() => setAttendanceViewMode('daily')}
+            >
+              Daily log
+            </button>
+            <button
+              className={`toggle-btn ${attendanceViewMode === 'monthly' ? 'active' : ''}`}
+              onClick={() => setAttendanceViewMode('monthly')}
+            >
+              Monthly summary
+            </button>
           </div>
         </div>
       </header>
 
-      <section className="attendance-stats-grid">
-        <div className="attendance-stat-card border-green">
-          <h3>Present</h3>
-          <div className="value text-green">3</div>
-        </div>
-        <div className="attendance-stat-card border-yellow">
-          <h3>Late</h3>
-          <div className="value text-yellow">1</div>
-        </div>
-        <div className="attendance-stat-card border-red">
-          <h3>Absent</h3>
-          <div className="value text-red">1</div>
-        </div>
-        <div className="attendance-stat-card border-blue">
-          <h3>On leave</h3>
-          <div className="value text-blue">1</div>
-        </div>
-      </section>
+      {attendanceViewMode === 'daily' ? (
+        <>
+          <section className="attendance-stats-grid">
+            <div className="attendance-stat-card border-green">
+              <h3>Present</h3>
+              <div className="value text-green">3</div>
+            </div>
+            <div className="attendance-stat-card border-yellow">
+              <h3>Late</h3>
+              <div className="value text-yellow">1</div>
+            </div>
+            <div className="attendance-stat-card border-red">
+              <h3>Absent</h3>
+              <div className="value text-red">1</div>
+            </div>
+            <div className="attendance-stat-card border-blue">
+              <h3>On leave</h3>
+              <div className="value text-blue">1</div>
+            </div>
+          </section>
 
-      <section className="employees-table-container attendance-table-container">
-        <table className="employees-table">
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Department</th>
-              <th className="center-col">Punch<br />in</th>
-              <th className="center-col">Punch<br />out</th>
-              <th className="center-col">Hours</th>
-              <th className="right-col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendanceData.map((emp, index) => (
-              <tr key={index}>
-                <td>
-                  <div className="emp-cell">
-                    <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
-                    <span className="emp-name">{emp.name}</span>
-                  </div>
-                </td>
-                <td>{emp.dept}</td>
-                <td className="center-col multi-line">{emp.punchIn}</td>
-                <td className="center-col multi-line">{emp.punchOut}</td>
-                <td className="center-col">{emp.hours}</td>
-                <td className="right-col">
-                  <span className={`status-pill emp-status ${emp.status.toLowerCase().replace(' ', '-')}`}>
-                    {emp.status}
-                  </span>
-                </td>
-              </tr>
+          <section className="employees-table-container attendance-table-container">
+            <table className="employees-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th className="center-col">Punch<br />in</th>
+                  <th className="center-col">Punch<br />out</th>
+                  <th className="center-col">Hours</th>
+                  <th className="right-col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {attendanceData.map((emp, index) => (
+                  <tr key={index}>
+                    <td>
+                      <div className="emp-cell">
+                        <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
+                        <span className="emp-name">{emp.name}</span>
+                      </div>
+                    </td>
+                    <td>{emp.dept}</td>
+                    <td className="center-col multi-line">{emp.punchIn}</td>
+                    <td className="center-col multi-line">{emp.punchOut}</td>
+                    <td className="center-col">{emp.hours}</td>
+                    <td className="right-col">
+                      <span className={`status-pill emp-status ${emp.status.toLowerCase().replace(' ', '-')}`}>
+                        {emp.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        </>
+      ) : (
+        <>
+          <section className="attendance-summary-top-row">
+            <div className="attendance-filter-pill">
+              <select>
+                <option>Ramesh Kumar</option>
+                <option>Priya Shankar</option>
+                <option>Arjun John</option>
+              </select>
+            </div>
+            <div className="attendance-filter-pill">
+              <select>
+                <option>May 2026</option>
+                <option>June 2026</option>
+                <option>July 2026</option>
+              </select>
+            </div>
+            <div className="attendance-legend-row">
+              <span className="legend-item present">Present</span>
+              <span className="legend-item absent">Absent</span>
+              <span className="legend-item late">Late</span>
+              <span className="legend-item halfday">Half-day</span>
+            </div>
+          </section>
+
+          <section className="attendance-calendar-card">
+            <div className="calendar-title-row">
+              <h3>May 2026</h3>
+              <div className="calendar-meta">Attendance overview</div>
+            </div>
+            <div className="calendar-weekdays">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                <div key={day} className="calendar-weekday">{day}</div>
+              ))}
+            </div>
+            <div className="calendar-grid">
+              {attendanceCalendarDays.map((item, index) => (
+                <div key={index} className={`calendar-cell ${item.status}`}>
+                  {item.date}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="attendance-summary-grid">
+            {monthlySummaryStats.map((stat, index) => (
+              <div key={index} className={`attendance-summary-card ${stat.colorClass}`}>
+                <span>{stat.label}</span>
+                <strong>{stat.value}</strong>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </section>
+          </section>
+        </>
+      )}
     </>
   );
 
@@ -937,11 +1045,35 @@ const HRDashboard = ({ onLogout }) => {
       <div className="employee-profile-view">
         <div className="profile-actions-header">
           <button className="btn-secondary" onClick={() => setCurrentView('employees')}>
-            <span className="icon">⬅️</span> Back to Employees
+            <span className="icon icon-arrow-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </span>
+            Back to Employees
           </button>
           <div className="profile-actions-right">
-            <button className="btn-secondary"><span className="icon">✏️</span> Edit</button>
-            <button className="btn-secondary"><span className="icon">🗑️</span> Delete</button>
+            <button className="btn-secondary">
+              <span className="icon icon-edit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+              </span>
+              Edit
+            </button>
+            <button className="btn-secondary">
+              <span className="icon icon-delete">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4h8v2" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                  <path d="M10 11v6" />
+                  <path d="M14 11v6" />
+                </svg>
+              </span>
+              Delete
+            </button>
           </div>
         </div>
 
@@ -957,10 +1089,10 @@ const HRDashboard = ({ onLogout }) => {
               </div>
               <p className="profile-role">Senior Software Engineer · EMP-001</p>
               <div className="profile-tags">
-                <span className="profile-tag">🏢 Software Dev</span>
-                <span className="profile-tag">📅 Joined: 12 Mar 2021</span>
-                <span className="profile-tag">📍 Chennai HQ</span>
-                <span className="profile-tag">💼 Full-time</span>
+                <span className="profile-tag">Software Dev</span>
+                <span className="profile-tag">Joined 12 Mar 2021</span>
+                <span className="profile-tag">Chennai HQ</span>
+                <span className="profile-tag">Full-time</span>
               </div>
             </div>
           </div>
@@ -968,7 +1100,17 @@ const HRDashboard = ({ onLogout }) => {
 
         {/* Attendance Summary */}
         <div className="profile-section-card">
-          <h3 className="section-subtitle">📅 THIS MONTH'S ATTENDANCE</h3>
+          <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="3" />
+                <path d="M16 2v4" />
+                <path d="M8 2v4" />
+                <path d="M3 10h18" />
+              </svg>
+            </span>
+            THIS MONTH'S ATTENDANCE
+          </h3>
           <div className="attendance-summary-grid">
             <div className="attendance-box">
               <span className="att-count text-green">19</span>
@@ -993,7 +1135,15 @@ const HRDashboard = ({ onLogout }) => {
         <div className="profile-details-grid">
           {/* Personal Details */}
           <div className="profile-section-card">
-            <h3 className="section-subtitle">👤 PERSONAL DETAILS</h3>
+            <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" />
+                <path d="M4 20v-1a7 7 0 0114 0v1" />
+              </svg>
+            </span>
+            PERSONAL DETAILS
+          </h3>
             <div className="details-list">
               <div className="detail-row"><span className="d-label">Date of Birth</span><span className="d-value right-align">14 Aug<br />1992</span></div>
               <div className="detail-row"><span className="d-label">Gender</span><span className="d-value right-align">Male</span></div>
@@ -1006,7 +1156,15 @@ const HRDashboard = ({ onLogout }) => {
 
           {/* Job Details */}
           <div className="profile-section-card">
-            <h3 className="section-subtitle">💼 JOB DETAILS</h3>
+            <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="7" width="18" height="13" rx="2" />
+                <path d="M7 7V4h10v3" />
+              </svg>
+            </span>
+            JOB DETAILS
+          </h3>
             <div className="details-list">
               <div className="detail-row"><span className="d-label">Department</span><span className="d-value right-align">Software Dev</span></div>
               <div className="detail-row"><span className="d-label">Designation</span><span className="d-value right-align">Sr. Engineer</span></div>
@@ -1019,7 +1177,17 @@ const HRDashboard = ({ onLogout }) => {
 
           {/* Government IDs */}
           <div className="profile-section-card">
-            <h3 className="section-subtitle">🪪 GOVERNMENT IDS</h3>
+            <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M7 8h10" />
+                <path d="M7 12h4" />
+                <path d="M7 16h6" />
+              </svg>
+            </span>
+            GOVERNMENT IDS
+          </h3>
             <div className="details-list">
               <div className="detail-row"><span className="d-label">Aadhaar</span><span className="d-value right-align">XXXX XXXX 4512</span></div>
               <div className="detail-row"><span className="d-label">PAN</span><span className="d-value right-align">BBBPE9312F</span></div>
@@ -1030,7 +1198,18 @@ const HRDashboard = ({ onLogout }) => {
 
           {/* Bank Details */}
           <div className="profile-section-card">
-            <h3 className="section-subtitle">🏦 BANK DETAILS</h3>
+            <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 10h18" />
+                <path d="M7 10v8" />
+                <path d="M12 10v8" />
+                <path d="M17 10v8" />
+                <path d="M4 10L12 4l8 6" />
+              </svg>
+            </span>
+            BANK DETAILS
+          </h3>
             <div className="details-list">
               <div className="detail-row"><span className="d-label">Bank</span><span className="d-value right-align">State Bank of India</span></div>
               <div className="detail-row"><span className="d-label">Account No.</span><span className="d-value right-align">XXXX XXXX<br />7891</span></div>
@@ -1042,7 +1221,16 @@ const HRDashboard = ({ onLogout }) => {
 
         {/* Education & Skills */}
         <div className="profile-section-card">
-          <h3 className="section-subtitle">🎓 EDUCATION & SKILLS</h3>
+          <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3L2 8l10 5 10-5-10-5z" />
+                <path d="M2 16l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </span>
+            EDUCATION & SKILLS
+          </h3>
           <div className="details-list edu-skills-layout">
             <div className="edu-col">
               <div className="detail-row"><span className="d-label">Qualification</span><span className="d-value right-align">B.E – Computer Science</span></div>
@@ -1064,7 +1252,17 @@ const HRDashboard = ({ onLogout }) => {
 
         {/* Emergency Contact */}
         <div className="profile-section-card">
-          <h3 className="section-subtitle">📞 EMERGENCY CONTACT</h3>
+          <h3 className="section-subtitle">
+            <span className="section-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16v16H4V4z" />
+                <path d="M8 7h8" />
+                <path d="M8 12h8" />
+                <path d="M8 17h5" />
+              </svg>
+            </span>
+            EMERGENCY CONTACT
+          </h3>
           <div className="details-list">
             <div className="detail-row"><span className="d-label">Name</span><span className="d-value right-align">Kavitha Ramesh (Spouse)</span></div>
             <div className="detail-row"><span className="d-label">Mobile</span><span className="d-value right-align">+91 94440 56789</span></div>
@@ -1272,28 +1470,76 @@ const HRDashboard = ({ onLogout }) => {
 
         <nav className="nav-menu">
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('dashboard'); }} className={`nav-item ${currentView === 'dashboard' ? 'active' : ''}`}>
-            <span className="nav-icon">📊</span> Dashboard
+            <span className="nav-icon nav-icon-dashboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="11" width="4" height="9" rx="1" />
+                <rect x="10" y="7" width="4" height="13" rx="1" />
+                <rect x="16" y="4" width="4" height="16" rx="1" />
+              </svg>
+            </span>
+            Dashboard
           </a>
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('employees'); }} className={`nav-item ${currentView === 'employees' ? 'active' : ''}`}>
-            <span className="nav-icon">👥</span> Employees
+            <span className="nav-icon nav-icon-employees">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 11a4 4 0 118 0" />
+                <path d="M5 21v-2a4 4 0 014-4h6a4 4 0 014 4v2" />
+              </svg>
+            </span>
+            Employees
           </a>
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('attendance'); }} className={`nav-item ${currentView === 'attendance' ? 'active' : ''}`}>
-            <span className="nav-icon">📅</span> Attendance
+            <span className="nav-icon nav-icon-attendance">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="4" y="5" width="16" height="16" rx="2" />
+                <path d="M16 3v4" />
+                <path d="M8 3v4" />
+                <path d="M4 11h16" />
+              </svg>
+            </span>
+            Attendance
           </a>
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('salary'); }} className={`nav-item ${currentView === 'salary' ? 'active' : ''}`}>
-            <span className="nav-icon">💰</span> Salary
+            <span className="nav-icon nav-icon-salary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="6" />
+                <path d="M12 8v8" />
+                <path d="M9 12h6" />
+              </svg>
+            </span>
+            Salary
           </a>
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('leave'); }} className={`nav-item ${currentView === 'leave' ? 'active' : ''}`}>
-            <span className="nav-icon">📄</span> Leave
+            <span className="nav-icon nav-icon-leave">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 4h14v16H5z" />
+                <path d="M9 4v16" />
+                <path d="M9 8h10" />
+              </svg>
+            </span>
+            Leave
           </a>
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('reports'); }} className={`nav-item ${currentView === 'reports' ? 'active' : ''}`}>
-            <span className="nav-icon">📈</span> Reports
+            <span className="nav-icon nav-icon-reports">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 16l4-4 4 4 6-6" />
+                <path d="M4 20h16" />
+              </svg>
+            </span>
+            Reports
           </a>
         </nav>
 
         <div className="sidebar-footer">
           <a href="#" onClick={(e) => { e.preventDefault(); onLogout(); }} className="logout-btn">
-            <span className="nav-icon">🚪</span> Logout
+            <span className="nav-icon nav-icon-logout">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 7v-2a2 2 0 012-2h6a2 2 0 012 2v14a2 2 0 01-2 2h-6a2 2 0 01-2-2v-2" />
+                <path d="M13 12h8" />
+                <path d="M17 8l4 4-4 4" />
+              </svg>
+            </span>
+            Logout
           </a>
         </div>
       </aside>
