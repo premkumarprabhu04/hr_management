@@ -469,6 +469,10 @@
   vertical-align: middle;
 }
 
+.employees-table tbody tr {
+  cursor: pointer;
+}
+
 .employees-table tr:hover td {
   background-color: #fbfbfd;
 }

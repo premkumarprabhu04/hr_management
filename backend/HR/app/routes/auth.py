@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
-from database.models.user import UserCreate, UserLogin
-from database.database import users_collection
-from app.utils import hash_password, verify_password
+from HR.database.models.user import UserCreate, UserLogin
+from HR.database.database import users_collection
+from ..utils import hash_password, verify_password
 from datetime import datetime
 
 router = APIRouter()

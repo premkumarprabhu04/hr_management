@@ -1,15 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import './HRDashboard.css';
 import AddEmployeeModal from './AddEmployeeModal';
+import Calendar from './Calendar';
 
 const HRDashboard = ({ onLogout }) => {
-  const [currentView, setCurrentView] = useState('dashboard');
+  const { view } = useParams();
+  const navigate = useNavigate();
+  const currentView = view || 'dashboard';
+
+  const setCurrentView = (newView) => {
+    navigate(`/${newView}`);
+  };
+
   const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
-  const [leaveActiveTab, setLeaveActiveTab] = useState('pending');
-  const [reportsActiveTab, setReportsActiveTab] = useState('overview');
-  const [salaryActiveTab, setSalaryActiveTab] = useState('payroll');
-  const [attendanceViewMode, setAttendanceViewMode] = useState('daily');
+  const [leaveActiveTab, setLeaveActiveTab] = useState(() => localStorage.getItem('hrLeaveActiveTab') || 'pending');
+  const [reportsActiveTab, setReportsActiveTab] = useState(() => localStorage.getItem('hrReportsActiveTab') || 'overview');
+  const [salaryActiveTab, setSalaryActiveTab] = useState(() => localStorage.getItem('hrSalaryActiveTab') || 'payroll');
+  const [attendanceViewMode, setAttendanceViewMode] = useState(() => localStorage.getItem('hrAttendanceViewMode') || 'daily');
   const currentDate = "Thursday, 15 May 2026";
+
+  useEffect(() => {
+    localStorage.setItem('hrLeaveActiveTab', leaveActiveTab);
+  }, [leaveActiveTab]);
+
+  useEffect(() => {
+    localStorage.setItem('hrReportsActiveTab', reportsActiveTab);
+  }, [reportsActiveTab]);
+
+  useEffect(() => {
+    localStorage.setItem('hrSalaryActiveTab', salaryActiveTab);
+  }, [salaryActiveTab]);
+
+  useEffect(() => {
+    localStorage.setItem('hrAttendanceViewMode', attendanceViewMode);
+  }, [attendanceViewMode]);
 
   const stats = [
     { label: "Total employees", value: "47" },
@@ -180,12 +205,12 @@ const HRDashboard = ({ onLogout }) => {
           </thead>
           <tbody>
             {employeesData.map((emp, index) => (
-              <tr key={index}>
+              <tr key={index} onClick={() => setCurrentView('employee-profile')}>
                 <td>
                   <div className="emp-cell">
                     <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
                     <div className="emp-details">
-                      <span className="emp-name" onClick={() => setCurrentView('employee-profile')} style={{ cursor: 'pointer' }}>{emp.name}</span>
+                      <span className="emp-name">{emp.name}</span>
                       <span className="emp-id">{emp.id}</span>
                     </div>
                   </div>
@@ -198,7 +223,7 @@ const HRDashboard = ({ onLogout }) => {
                 </td>
                 <td>{emp.inOut}</td>
                 <td>
-                  <button className="btn-view" onClick={() => setCurrentView('employee-profile')}>View</button>
+                  <button className="btn-view">View</button>
                 </td>
               </tr>
             ))}
@@ -1499,6 +1524,17 @@ const HRDashboard = ({ onLogout }) => {
             </span>
             Attendance
           </a>
+          <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('calendar'); }} className={`nav-item ${currentView === 'calendar' ? 'active' : ''}`}>
+            <span className="nav-icon nav-icon-calendar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <path d="M16 2v4" />
+                <path d="M8 2v4" />
+                <path d="M3 10h18" />
+              </svg>
+            </span>
+            Calendar
+          </a>
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentView('salary'); }} className={`nav-item ${currentView === 'salary' ? 'active' : ''}`}>
             <span className="nav-icon nav-icon-salary">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -1549,6 +1585,7 @@ const HRDashboard = ({ onLogout }) => {
         {currentView === 'dashboard' && renderDashboardContent()}
         {currentView === 'employees' && renderEmployeesContent()}
         {currentView === 'attendance' && renderAttendanceContent()}
+        {currentView === 'calendar' && <Calendar />}
         {currentView === 'salary' && renderSalaryContent()}
         {currentView === 'employee-profile' && renderEmployeeProfile()}
         {currentView === 'leave' && renderLeaveContent()}

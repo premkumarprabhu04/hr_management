@@ -1,0 +1,295 @@
+.popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  width: 90%;
+  max-width: 520px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-close:hover {
+  color: #111827;
+}
+
+.popup-header {
+  margin-bottom: 24px;
+}
+
+.popup-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 8px 0;
+}
+
+.popup-date {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Holiday Info Box */
+.holiday-info-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #dbeafe;
+  border-left: 4px solid #3b82f6;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.holiday-icon {
+  font-size: 2rem;
+}
+
+.holiday-details-info h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.holiday-details-info p {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Attendance Summary */
+.attendance-summary-popup {
+  margin-bottom: 24px;
+}
+
+.attendance-summary-popup h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.summary-badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  gap: 4px;
+}
+
+.badge .count {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.badge .label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Employee Status List */
+.employee-status-list {
+  margin-bottom: 24px;
+}
+
+.employee-status-list h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.no-data-box {
+  padding: 40px 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.no-data {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.status-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.avatar-green {
+  background: #15803d;
+}
+
+.avatar-orange {
+  background: #ea580c;
+}
+
+.avatar-red {
+  background: #dc2626;
+}
+
+.avatar-blue {
+  background: #2563eb;
+}
+
+.avatar-purple {
+  background: #a855f7;
+}
+
+.avatar-gray {
+  background: #9ca3af;
+}
+
+.status-item-info {
+  flex: 1;
+}
+
+.emp-name-detail {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.popup-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-edit-attendance {
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-edit-attendance:hover {
+  background: #2563eb;
+}
+
+.btn-edit-attendance:active {
+  background: #1d4ed8;
+}
+
+/* Scrollbar styling */
+.popup-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 3px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.popup-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+@media (max-width: 480px) {
+  .popup-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .popup-header {
+    margin-bottom: 16px;
+  }
+
+  .summary-badges {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.employee-search-input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
