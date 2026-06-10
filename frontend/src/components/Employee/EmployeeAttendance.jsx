@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { usePagination, PaginatedView } from '../../hooks/usePagination';
+import Pagination from '../Shared/Pagination';
 import './EmployeeAttendance.css';
 
 // Smooth tab transition wrapper
@@ -32,8 +34,15 @@ const EmployeeAttendance = () => {
     { date: '10 May', day: 'Sat', clockIn: '—', clockOut: '—', hours: '—', method: '—', status: 'weekend' },
     { date: '09 May', day: 'Fri', clockIn: '09:01 AM', clockOut: '06:00 PM', hours: '8h 59m', method: 'clock', status: 'present' },
     { date: '08 May', day: 'Thu', clockIn: '—', clockOut: '—', hours: '—', method: '—', status: 'absent' },
-    { date: '07 May', day: 'Wed', clockIn: '09:00 AM', clockOut: '03:30 PM', hours: '6h 30m', method: 'biometric', status: 'half-day' }
+    { date: '07 May', day: 'Wed', clockIn: '09:00 AM', clockOut: '03:30 PM', hours: '6h 30m', method: 'biometric', status: 'half-day' },
+    { date: '06 May', day: 'Tue', clockIn: '08:55 AM', clockOut: '06:05 PM', hours: '9h 10m', method: 'biometric', status: 'present' },
+    { date: '05 May', day: 'Mon', clockIn: '09:05 AM', clockOut: '06:00 PM', hours: '8h 55m', method: 'biometric', status: 'present' },
+    { date: '03 May', day: 'Sat', clockIn: '—', clockOut: '—', hours: '—', method: '—', status: 'weekend' },
+    { date: '02 May', day: 'Fri', clockIn: '08:50 AM', clockOut: '05:55 PM', hours: '9h 05m', method: 'clock', status: 'present' },
+    { date: '01 May', day: 'Thu', clockIn: '09:00 AM', clockOut: '06:00 PM', hours: '9h 00m', method: 'biometric', status: 'present' }
   ];
+
+  const paginationProps = usePagination(historyData, 5);
 
   const calendarDays = [
     { day: '', status: '' }, { day: '1', status: 'Pr' }, { day: '2', status: 'Pr' }, { day: '3', status: 'weekend' }, { day: '4', status: 'weekend' }, { day: '5', status: 'Pr' }, { day: '6', status: 'La' },
@@ -240,37 +249,40 @@ const EmployeeAttendance = () => {
               </div>
             </div>
 
-            <div className="card att-history-card">
-              <table className="history-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Clock in</th>
-                    <th>Clock out</th>
-                    <th>Hours</th>
-                    <th>Method</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historyData.map((row, idx) => (
-                    <tr key={idx}>
-                      <td>
-                        <div className="hist-date">{row.date}</div>
-                        <div className="hist-day">{row.day}</div>
-                      </td>
-                      <td className={row.clockIn.includes('AM') && row.status === 'late' ? 'text-brown' : ''}>{row.clockIn}</td>
-                      <td>{row.clockOut}</td>
-                      <td>{row.hours}</td>
-                      <td>
-                        {row.method !== '—' && <MethodIcon method={row.method} />}
-                        {row.method}
-                      </td>
-                      <td><span className={`hist-badge ${getBadgeClass(row.status)}`}>{row.status}</span></td>
+            <div className="card att-history-card" style={{ padding: 0, overflow: 'hidden' }}>
+              <PaginatedView isTransitioning={paginationProps.isTransitioning}>
+                <table className="history-table" style={{ margin: 0, width: '100%' }}>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Clock in</th>
+                      <th>Clock out</th>
+                      <th>Hours</th>
+                      <th>Method</th>
+                      <th>Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {paginationProps.paginatedData.map((row, idx) => (
+                      <tr key={idx}>
+                        <td>
+                          <div className="hist-date">{row.date}</div>
+                          <div className="hist-day">{row.day}</div>
+                        </td>
+                        <td className={row.clockIn.includes('AM') && row.status === 'late' ? 'text-brown' : ''}>{row.clockIn}</td>
+                        <td>{row.clockOut}</td>
+                        <td>{row.hours}</td>
+                        <td>
+                          {row.method !== '—' && <MethodIcon method={row.method} />}
+                          {row.method}
+                        </td>
+                        <td><span className={`hist-badge ${getBadgeClass(row.status)}`}>{row.status}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </PaginatedView>
+              <Pagination {...paginationProps} />
             </div>
           </div>
         </AnimatedTab>

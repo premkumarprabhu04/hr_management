@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { usePagination, PaginatedView } from '../../hooks/usePagination';
+import Pagination from '../Shared/Pagination';
 import './HRDashboard.css';
 import AddEmployeeModal from './AddEmployeeModal';
 import Calendar from './Calendar';
@@ -112,6 +114,8 @@ const HRDashboard = ({ onLogout }) => {
     { initials: "SB", name: "Suresh Babu", id: "EMP-005", dept: "Support", status: "Present", inOut: "09:05 AM / —", colorClass: "green" },
     { initials: "LR", name: "Lakshmi Rajan", id: "EMP-006", dept: "Marketing", status: "On leave", inOut: "— / —", colorClass: "yellow" }
   ];
+
+  const employeesPagination = usePagination(employeesData, 5);
 
   const renderDashboardContent = () => (
     <>
@@ -237,42 +241,45 @@ const HRDashboard = ({ onLogout }) => {
       </header>
 
       <section className="employees-table-container">
-        <table className="employees-table">
-          <thead>
-            <tr>
-              <th>Employee</th>
-              <th>Dept.</th>
-              <th>Today</th>
-              <th>In / Out</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employeesData.map((emp, index) => (
-              <tr key={index} onClick={() => setCurrentView('employee-profile')}>
-                <td>
-                  <div className="emp-cell">
-                    <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
-                    <div className="emp-details">
-                      <span className="emp-name">{emp.name}</span>
-                      <span className="emp-id">{emp.id}</span>
-                    </div>
-                  </div>
-                </td>
-                <td>{emp.dept}</td>
-                <td>
-                  <span className={`status-pill emp-status ${emp.status.toLowerCase().replace(' ', '-')}`}>
-                    {emp.status}
-                  </span>
-                </td>
-                <td>{emp.inOut}</td>
-                <td>
-                  <button className="btn-view">View</button>
-                </td>
+        <PaginatedView isTransitioning={employeesPagination.isTransitioning}>
+          <table className="employees-table">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Dept.</th>
+                <th>Today</th>
+                <th>In / Out</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {employeesPagination.paginatedData.map((emp, index) => (
+                <tr key={index} onClick={() => setCurrentView('employee-profile')}>
+                  <td>
+                    <div className="emp-cell">
+                      <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
+                      <div className="emp-details">
+                        <span className="emp-name">{emp.name}</span>
+                        <span className="emp-id">{emp.id}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{emp.dept}</td>
+                  <td>
+                    <span className={`status-pill emp-status ${emp.status.toLowerCase().replace(' ', '-')}`}>
+                      {emp.status}
+                    </span>
+                  </td>
+                  <td>{emp.inOut}</td>
+                  <td>
+                    <button className="btn-view">View</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </PaginatedView>
+        <Pagination {...employeesPagination} />
       </section>
     </>
   );
@@ -285,6 +292,8 @@ const HRDashboard = ({ onLogout }) => {
     { initials: "SB", name: "Suresh Babu", dept: "Support", punchIn: "09:05\nAM", punchOut: "06:10\nPM", hours: "9h 05m", status: "Present", colorClass: "green" },
     { initials: "LR", name: "Lakshmi Rajan", dept: "Marketing", punchIn: "—", punchOut: "—", hours: "—", status: "On leave", colorClass: "blue" }
   ];
+
+  const attPagination = usePagination(attendanceData, 5);
 
   const attendanceCalendarDays = [
     { date: '5', status: 'present' }, { date: '6', status: 'late' }, { date: '7', status: 'present' }, { date: '8', status: 'present' },
@@ -348,40 +357,43 @@ const HRDashboard = ({ onLogout }) => {
             </div>
           </section>
 
-          <section className="employees-table-container attendance-table-container">
-            <table className="employees-table">
-              <thead>
-                <tr>
-                  <th>Employee</th>
-                  <th>Department</th>
-                  <th className="center-col">Punch<br />in</th>
-                  <th className="center-col">Punch<br />out</th>
-                  <th className="center-col">Hours</th>
-                  <th className="right-col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {attendanceData.map((emp, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="emp-cell">
-                        <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
-                        <span className="emp-name">{emp.name}</span>
-                      </div>
-                    </td>
-                    <td>{emp.dept}</td>
-                    <td className="center-col multi-line">{emp.punchIn}</td>
-                    <td className="center-col multi-line">{emp.punchOut}</td>
-                    <td className="center-col">{emp.hours}</td>
-                    <td className="right-col">
-                      <span className={`status-pill emp-status ${emp.status.toLowerCase().replace(' ', '-')}`}>
-                        {emp.status}
-                      </span>
-                    </td>
+          <section className="employees-table-container attendance-table-container" style={{ paddingBottom: '0' }}>
+            <PaginatedView isTransitioning={attPagination.isTransitioning}>
+              <table className="employees-table">
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th>Department</th>
+                    <th className="center-col">Punch<br />in</th>
+                    <th className="center-col">Punch<br />out</th>
+                    <th className="center-col">Hours</th>
+                    <th className="right-col">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {attPagination.paginatedData.map((emp, index) => (
+                    <tr key={index}>
+                      <td>
+                        <div className="emp-cell">
+                          <div className={`avatar-circle bg-${emp.colorClass}`}>{emp.initials}</div>
+                          <span className="emp-name">{emp.name}</span>
+                        </div>
+                      </td>
+                      <td>{emp.dept}</td>
+                      <td className="center-col multi-line">{emp.punchIn}</td>
+                      <td className="center-col multi-line">{emp.punchOut}</td>
+                      <td className="center-col">{emp.hours}</td>
+                      <td className="right-col">
+                        <span className={`status-pill emp-status ${emp.status.toLowerCase().replace(' ', '-')}`}>
+                          {emp.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </PaginatedView>
+            <Pagination {...attPagination} />
           </section>
         </AnimatedTab>
       ) : (
@@ -462,6 +474,10 @@ const HRDashboard = ({ onLogout }) => {
     { initials: "SB", name: "Suresh Babu", role: "Support", bgClass: "bg-green-light", clUsed: 2, clTotal: 12, slUsed: 2, slTotal: 6, elUsed: 0, elTotal: 15 }
   ];
 
+  const leaveReqPagination = usePagination(leaveRequestsData, 5);
+  const leaveHistPagination = usePagination(leaveHistoryData, 5);
+  const leaveBalPagination = usePagination(leaveBalanceData, 5);
+
   const reportsAbsenteesData = [
     { initials: 'RK', name: 'Ramesh Kumar', dept: 'Software Dev', bgClass: 'bg-green-light', days: 5, risk: 'High', riskClass: 'high' },
     { initials: 'PS', name: 'Priya Shankar', dept: 'HR', bgClass: 'bg-orange-light', days: 3, risk: 'Medium', riskClass: 'medium' },
@@ -478,13 +494,26 @@ const HRDashboard = ({ onLogout }) => {
   ];
 
   const reportsSalaryData = [
-    { initials: 'RK', name: 'Ramesh Kumar',  bgClass: 'bg-green-light',  gross: '₹51,000', leaveDed: '-₹1,000', otherDed: '-₹9,285',  net: '₹40,715', status: 'paid' },
-    { initials: 'PS', name: 'Priya Shankar', bgClass: 'bg-orange-light', gross: '₹41,200', leaveDed: '-₹2,000', otherDed: '-₹8,310',  net: '₹30,890', status: 'paid' },
-    { initials: 'AJ', name: 'Arjun John',    bgClass: 'bg-red-light',    gross: '₹60,000', leaveDed: '₹0',      otherDed: '-₹14,892', net: '₹45,108', status: 'paid' },
-    { initials: 'MV', name: 'Meena Velu',    bgClass: 'bg-green-light',  gross: '₹38,500', leaveDed: '₹0',      otherDed: '-₹7,508',  net: '₹30,992', status: 'paid' },
+    { initials: 'RK', name: 'Ramesh Kumar',  bgClass: 'bg-green-light',  gross: '₹51,000', leaveDed: '-₹1,000', otherDed: '-₹7,875',  net: '₹42,125', status: 'pending' },
+    { initials: 'PS', name: 'Priya Shankar', bgClass: 'bg-orange-light', gross: '₹41,200', leaveDed: '-₹2,000', otherDed: '-₹5,746',  net: '₹33,454', status: 'pending' },
+    { initials: 'AJ', name: 'Arjun John',    bgClass: 'bg-red-light',    gross: '₹60,800', leaveDed: '₹0',      otherDed: '-₹13,573', net: '₹47,027', status: 'paid' },
+    { initials: 'MV', name: 'Meena Velu',    bgClass: 'bg-green-light',  gross: '₹45,400', leaveDed: '-₹1,000', otherDed: '-₹4,061',  net: '₹40,339', status: 'pending' },
     { initials: 'SB', name: 'Suresh Babu',   bgClass: 'bg-green-light',  gross: '₹45,000', leaveDed: '-₹2,000', otherDed: '-₹9,305',  net: '₹33,695', status: 'held' },
     { initials: 'LR', name: 'Lakshmi Rajan', bgClass: 'bg-blue-light',   gross: '₹75,000', leaveDed: '₹0',      otherDed: '-₹15,400', net: '₹59,600', status: 'paid' },
   ];
+
+  const salaryPayrollData = [
+    { initials: 'RK', name: 'Ramesh Kumar', role: 'Software Dev', bgClass: 'bg-green-light', gross: '₹51,000', absentDed: '- ₹2,692', leaveDed: '- ₹1,000', pfEsi: '- ₹4,583', netPay: '₹42,125', status: 'Pending', statusClass: 'pending' },
+    { initials: 'PS', name: 'Priya Shankar', role: 'HR', bgClass: 'bg-orange-light', gross: '₹41,200', absentDed: '- ₹1,077', leaveDed: '- ₹2,000', pfEsi: '- ₹3,669', netPay: '₹33,454', status: 'Pending', statusClass: 'pending' },
+    { initials: 'AJ', name: 'Arjun John', role: 'Finance', bgClass: 'bg-red-light', gross: '₹60,800', absentDed: '- ₹8,077', leaveDed: '- ₹0', pfEsi: '- ₹5,496', netPay: '₹47,027', status: 'Paid', statusClass: 'approved' },
+    { initials: 'MV', name: 'Meena Velu', role: 'Software Dev', bgClass: 'bg-green-light', gross: '₹45,400', absentDed: '- ₹0', leaveDed: '- ₹1,000', pfEsi: '- ₹4,061', netPay: '₹40,339', status: 'Pending', statusClass: 'pending' },
+    { initials: 'SB', name: 'Suresh Babu', role: 'Support', bgClass: 'bg-red-light', gross: '₹32,800', absentDed: '- ₹846', leaveDed: '- ₹2,000', pfEsi: '- ₹2,886', netPay: '₹26,668', status: 'Held', statusClass: 'rejected' },
+    { initials: 'LR', name: 'Lakshmi Rajan', role: 'Marketing', bgClass: 'bg-blue-light', gross: '₹55,200', absentDed: '- ₹0', leaveDed: '- ₹4,000', pfEsi: '- ₹4,974', netPay: '₹46,026', status: 'Pending', statusClass: 'pending' }
+  ];
+
+  const repAttPagination = usePagination(reportsAttendanceData, 5);
+  const repSalPagination = usePagination(reportsSalaryData, 5);
+  const salaryPayrollPagination = usePagination(salaryPayrollData, 5);
 
   const renderReportsContent = () => (
     <>
@@ -628,39 +657,42 @@ const HRDashboard = ({ onLogout }) => {
           <section className="absentees-card">
             <h3>Monthly attendance — all employees</h3>
             <div className="employees-table-container">
-              <table className="employees-table">
-                <thead>
-                  <tr>
-                    <th>Employee</th>
-                    <th className="center-col">Present</th>
-                    <th className="center-col">Absent</th>
-                    <th className="center-col">Late</th>
-                    <th className="center-col">Half day</th>
-                    <th className="center-col">Leave</th>
-                    <th className="center-col">Avg hrs</th>
-                    <th className="center-col">Rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reportsAttendanceData.map((emp, index) => (
-                    <tr key={index}>
-                      <td>
-                        <div className="emp-cell">
-                          <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
-                          <span className="emp-name">{emp.name}</span>
-                        </div>
-                      </td>
-                      <td className="center-col" style={{ color: '#15803d', fontWeight: '500' }}>{emp.present}</td>
-                      <td className="center-col" style={{ color: emp.absent > 0 ? '#b91c1c' : 'inherit', fontWeight: emp.absent > 0 ? '500' : 'normal' }}>{emp.absent}</td>
-                      <td className="center-col">{emp.late}</td>
-                      <td className="center-col">{emp.halfDay}</td>
-                      <td className="center-col" style={{ color: emp.leave > 0 ? '#2563eb' : 'inherit', fontWeight: emp.leave > 0 ? '500' : 'inherit' }}>{emp.leave}</td>
-                      <td className="center-col">{emp.avgHrs}</td>
-                      <td className="center-col" style={{ color: '#854d0e', fontWeight: '600' }}>{emp.rate}</td>
+              <PaginatedView isTransitioning={repAttPagination.isTransitioning}>
+                <table className="employees-table">
+                  <thead>
+                    <tr>
+                      <th>Employee</th>
+                      <th className="center-col">Present</th>
+                      <th className="center-col">Absent</th>
+                      <th className="center-col">Late</th>
+                      <th className="center-col">Half day</th>
+                      <th className="center-col">Leave</th>
+                      <th className="center-col">Avg hrs</th>
+                      <th className="center-col">Rate</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {repAttPagination.paginatedData.map((emp, index) => (
+                      <tr key={index}>
+                        <td>
+                          <div className="emp-cell">
+                            <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
+                            <span className="emp-name">{emp.name}</span>
+                          </div>
+                        </td>
+                        <td className="center-col" style={{ color: '#15803d', fontWeight: '500' }}>{emp.present}</td>
+                        <td className="center-col" style={{ color: emp.absent > 0 ? '#b91c1c' : 'inherit', fontWeight: emp.absent > 0 ? '500' : 'normal' }}>{emp.absent}</td>
+                        <td className="center-col">{emp.late}</td>
+                        <td className="center-col">{emp.halfDay}</td>
+                        <td className="center-col" style={{ color: emp.leave > 0 ? '#2563eb' : 'inherit', fontWeight: emp.leave > 0 ? '500' : 'inherit' }}>{emp.leave}</td>
+                        <td className="center-col">{emp.avgHrs}</td>
+                        <td className="center-col" style={{ color: '#854d0e', fontWeight: '600' }}>{emp.rate}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </PaginatedView>
+              <Pagination {...repAttPagination} />
             </div>
           </section>
         </AnimatedTab>
@@ -757,37 +789,40 @@ const HRDashboard = ({ onLogout }) => {
           <section className="absentees-card">
             <h3>Salary register — May 2026</h3>
             <div className="employees-table-container">
-              <table className="employees-table">
-                <thead>
-                  <tr>
-                    <th>Employee</th>
-                    <th className="center-col">Gross</th>
-                    <th className="center-col">Leave ded.</th>
-                    <th className="center-col">Other ded.</th>
-                    <th className="center-col">Net pay</th>
-                    <th className="center-col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reportsSalaryData.map((emp, index) => (
-                    <tr key={index}>
-                      <td>
-                        <div className="emp-cell">
-                          <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
-                          <span className="emp-name">{emp.name}</span>
-                        </div>
-                      </td>
-                      <td className="center-col">{emp.gross}</td>
-                      <td className="center-col" style={{ color: emp.leaveDed.startsWith('-') ? '#b91c1c' : 'inherit' }}>{emp.leaveDed}</td>
-                      <td className="center-col" style={{ color: '#b91c1c' }}>{emp.otherDed}</td>
-                      <td className="center-col" style={{ color: '#15803d', fontWeight: '600' }}>{emp.net}</td>
-                      <td className="center-col">
-                        <span className={`status-pill ${emp.status === 'paid' ? 'approved' : 'pending'}`}>{emp.status}</span>
-                      </td>
+              <PaginatedView isTransitioning={repSalPagination.isTransitioning}>
+                <table className="employees-table">
+                  <thead>
+                    <tr>
+                      <th>Employee</th>
+                      <th className="center-col">Gross</th>
+                      <th className="center-col">Leave ded.</th>
+                      <th className="center-col">Other ded.</th>
+                      <th className="center-col">Net pay</th>
+                      <th className="center-col">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {repSalPagination.paginatedData.map((emp, index) => (
+                      <tr key={index}>
+                        <td>
+                          <div className="emp-cell">
+                            <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
+                            <span className="emp-name">{emp.name}</span>
+                          </div>
+                        </td>
+                        <td className="center-col">{emp.gross}</td>
+                        <td className="center-col" style={{ color: emp.leaveDed.startsWith('-') ? '#b91c1c' : 'inherit' }}>{emp.leaveDed}</td>
+                        <td className="center-col" style={{ color: '#b91c1c' }}>{emp.otherDed}</td>
+                        <td className="center-col" style={{ color: '#15803d', fontWeight: '600' }}>{emp.net}</td>
+                        <td className="center-col">
+                          <span className={`status-pill ${emp.status === 'paid' ? 'approved' : 'pending'}`}>{emp.status}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </PaginatedView>
+              <Pagination {...repSalPagination} />
             </div>
           </section>
         </AnimatedTab>
@@ -986,35 +1021,38 @@ const HRDashboard = ({ onLogout }) => {
             </div>
           </section>
 
-          <div className="leave-requests-list">
-            {leaveRequestsData.map((req, index) => (
-              <div key={index} className="leave-request-card">
-                <div className="lr-header">
-                  <div className="lr-user-info">
-                    <div className={`lr-avatar ${req.bgClass}`}>{req.initials}</div>
-                    <div className="lr-details">
-                      <h3>{req.name}</h3>
-                      <div className="lr-meta">
-                        <span className={`lr-badge ${req.typeClass}`}>{req.type}</span>
-                        <span>{req.duration}</span>
+          <div className="leave-requests-list" style={{ paddingBottom: '0' }}>
+            <PaginatedView isTransitioning={leaveReqPagination.isTransitioning}>
+              {leaveReqPagination.paginatedData.map((req, index) => (
+                <div key={index} className="leave-request-card">
+                  <div className="lr-header">
+                    <div className="lr-user-info">
+                      <div className={`lr-avatar ${req.bgClass}`}>{req.initials}</div>
+                      <div className="lr-details">
+                        <h3>{req.name}</h3>
+                        <div className="lr-meta">
+                          <span className={`lr-badge ${req.typeClass}`}>{req.type}</span>
+                          <span>{req.duration}</span>
+                        </div>
                       </div>
                     </div>
+                    <span className="lr-badge pending">{req.status}</span>
                   </div>
-                  <span className="lr-badge pending">{req.status}</span>
+                  <div className="lr-reason">
+                    {req.reason}
+                  </div>
+                  <div className="lr-actions">
+                    <button className="btn-outline-green">
+                      <span>✓</span> Approve — salary auto-deducts {req.deduct}
+                    </button>
+                    <button className="btn-outline-red">
+                      <span>✕</span> Reject
+                    </button>
+                  </div>
                 </div>
-                <div className="lr-reason">
-                  {req.reason}
-                </div>
-                <div className="lr-actions">
-                  <button className="btn-outline-green">
-                    <span>✓</span> Approve — salary auto-deducts {req.deduct}
-                  </button>
-                  <button className="btn-outline-red">
-                    <span>✕</span> Reject
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </PaginatedView>
+            <Pagination {...leaveReqPagination} />
           </div>
         </AnimatedTab>
       )}
@@ -1022,91 +1060,106 @@ const HRDashboard = ({ onLogout }) => {
       {leaveActiveTab === 'history' && (
         <AnimatedTab tabKey="history">
           <section className="employees-table-container">
-            <table className="employees-table leave-history-table">
-              <thead>
-                <tr>
-                  <th>Employee</th>
-                  <th>Type</th>
-                  <th>Period</th>
-                  <th className="center-col">Days</th>
-                  <th className="center-col">Deduction</th>
-                  <th className="right-col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaveHistoryData.map((record, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="emp-cell">
-                        <div className={`avatar-circle ${record.bgClass}`}>{record.initials}</div>
-                        <span className="emp-name">{record.name}</span>
-                      </div>
-                    </td>
-                    <td><span className={`lr-badge ${record.typeClass}`}>{record.type}</span></td>
-                    <td className="multi-line" style={{ whiteSpace: 'pre-line', lineHeight: '1.4' }}>{record.dateRange}</td>
-                    <td className="center-col">{record.days}</td>
-                    <td className="center-col" style={{ color: record.deduction.startsWith('-') ? '#991b1b' : 'inherit' }}>{record.deduction}</td>
-                    <td className="right-col">
-                      <span className={`status-pill ${record.status === 'Approved' ? 'approved' : 'rejected'}`}>{record.status}</span>
-                    </td>
+            <PaginatedView isTransitioning={leaveHistPagination.isTransitioning}>
+              <table className="employees-table leave-history-table">
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Period</th>
+                    <th className="center-col">Days</th>
+                    <th className="center-col">Deduction</th>
+                    <th className="right-col">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {leaveHistPagination.paginatedData.map((record, index) => (
+                    <tr key={index}>
+                      <td>
+                        <div className="emp-cell">
+                          <div className={`avatar-circle ${record.bgClass}`}>{record.initials}</div>
+                          <span className="emp-name">{record.name}</span>
+                        </div>
+                      </td>
+                      <td><span className={`lr-badge ${record.typeClass}`}>{record.type}</span></td>
+                      <td className="multi-line" style={{ whiteSpace: 'pre-line', lineHeight: '1.4' }}>{record.dateRange}</td>
+                      <td className="center-col">{record.days}</td>
+                      <td className="center-col" style={{ color: record.deduction.startsWith('-') ? '#991b1b' : 'inherit' }}>{record.deduction}</td>
+                      <td className="right-col">
+                        <span className={`status-pill ${record.status === 'Approved' ? 'approved' : 'rejected'}`}>{record.status}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </PaginatedView>
+            <Pagination {...leaveHistPagination} />
           </section>
         </AnimatedTab>
       )}
 
       {leaveActiveTab === 'balance' && (
         <AnimatedTab tabKey="balance">
-          <div className="leave-requests-list">
-            {leaveBalanceData.map((emp, index) => (
-              <div key={index} className="leave-balance-card">
-                <div className="lb-header">
-                  <div className="lb-user-info">
-                    <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
-                    <div className="lb-details">
-                      <h3>{emp.name}</h3>
-                      <p>{emp.role}</p>
+          <div className="leave-requests-list" style={{ paddingBottom: '0' }}>
+            <PaginatedView isTransitioning={leaveBalPagination.isTransitioning}>
+              {leaveBalPagination.paginatedData.map((emp, index) => (
+                <div key={index} className="leave-balance-card">
+                  <div className="lb-header">
+                    <div className="lb-user-info">
+                      <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
+                      <div className="lb-details">
+                        <h3>{emp.name}</h3>
+                        <p>{emp.role}</p>
+                      </div>
+                    </div>
+                    <div className="lb-summary">
+                      <div className="lb-chip cl">
+                        <span className="chip-label">CL</span>
+                        <span className="chip-value">{emp.clUsed}/{emp.clTotal}</span>
+                      </div>
+                      <div className="lb-chip sl">
+                        <span className="chip-label">SL</span>
+                        <span className="chip-value">{emp.slUsed}/{emp.slTotal}</span>
+                      </div>
+                      <div className="lb-chip el">
+                        <span className="chip-label">EL</span>
+                        <span className="chip-value">{emp.elUsed}/{emp.elTotal}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="lb-summary">
-                    <span>CL: <strong>{emp.clUsed}/{emp.clTotal}</strong></span>
-                    <span>SL: <strong>{emp.slUsed}/{emp.slTotal}</strong></span>
-                    <span>EL: <strong>{emp.elUsed}/{emp.elTotal}</strong></span>
+                  <div className="lb-progress-bars">
+                    <div className="lb-progress-item">
+                      <div className="lb-progress-labels">
+                        <span className="prog-title">Casual leave</span>
+                        <span className="prog-count">{emp.clUsed} of {emp.clTotal} used</span>
+                      </div>
+                      <div className="lb-progress-track">
+                        <div className="lb-progress-fill fill-casual" style={{ width: `${(emp.clUsed / emp.clTotal) * 100}%` }}></div>
+                      </div>
+                    </div>
+                    <div className="lb-progress-item">
+                      <div className="lb-progress-labels">
+                        <span className="prog-title">Sick leave</span>
+                        <span className="prog-count">{emp.slUsed} of {emp.slTotal} used</span>
+                      </div>
+                      <div className="lb-progress-track">
+                        <div className="lb-progress-fill fill-sick" style={{ width: `${(emp.slUsed / emp.slTotal) * 100}%` }}></div>
+                      </div>
+                    </div>
+                    <div className="lb-progress-item">
+                      <div className="lb-progress-labels">
+                        <span className="prog-title">Earned leave</span>
+                        <span className="prog-count">{emp.elUsed} of {emp.elTotal} used</span>
+                      </div>
+                      <div className="lb-progress-track">
+                        <div className="lb-progress-fill fill-earned" style={{ width: `${(emp.elUsed / emp.elTotal) * 100}%` }}></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="lb-progress-bars">
-                  <div className="lb-progress-item">
-                    <div className="lb-progress-labels">
-                      <span>Casual leave</span>
-                      <span>{emp.clUsed} of {emp.clTotal} used</span>
-                    </div>
-                    <div className="lb-progress-track">
-                      <div className="lb-progress-fill fill-casual" style={{ width: `${(emp.clUsed / emp.clTotal) * 100}%` }}></div>
-                    </div>
-                  </div>
-                  <div className="lb-progress-item">
-                    <div className="lb-progress-labels">
-                      <span>Sick leave</span>
-                      <span>{emp.slUsed} of {emp.slTotal} used</span>
-                    </div>
-                    <div className="lb-progress-track">
-                      <div className="lb-progress-fill fill-sick" style={{ width: `${(emp.slUsed / emp.slTotal) * 100}%` }}></div>
-                    </div>
-                  </div>
-                  <div className="lb-progress-item">
-                    <div className="lb-progress-labels">
-                      <span>Earned leave</span>
-                      <span>{emp.elUsed} of {emp.elTotal} used</span>
-                    </div>
-                    <div className="lb-progress-track">
-                      <div className="lb-progress-fill fill-earned" style={{ width: `${(emp.elUsed / emp.elTotal) * 100}%` }}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+              ))}
+            </PaginatedView>
+            <Pagination {...leaveBalPagination} />
           </div>
         </AnimatedTab>
       )}
@@ -1474,49 +1527,45 @@ const HRDashboard = ({ onLogout }) => {
                 <span className="icon">📋</span> Process all
               </button>
             </div>
-            <table className="employees-table">
-              <thead>
-                <tr>
-                  <th>Employee</th>
-                  <th className="center-col">Gross</th>
-                  <th className="center-col">Absent ded.</th>
-                  <th className="center-col">Leave ded.</th>
-                  <th className="center-col">PF+ESI</th>
-                  <th className="center-col">Net pay</th>
-                  <th className="center-col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { initials: 'RK', name: 'Ramesh Kumar', role: 'Software Dev', bgClass: 'bg-green-light', gross: '₹51,000', absentDed: '- ₹2,692', leaveDed: '- ₹1,000', pfEsi: '- ₹4,583', netPay: '₹42,125', status: 'Pending', statusClass: 'pending' },
-                  { initials: 'PS', name: 'Priya Shankar', role: 'HR', bgClass: 'bg-orange-light', gross: '₹41,200', absentDed: '- ₹1,077', leaveDed: '- ₹2,000', pfEsi: '- ₹3,669', netPay: '₹33,454', status: 'Pending', statusClass: 'pending' },
-                  { initials: 'AJ', name: 'Arjun John', role: 'Finance', bgClass: 'bg-red-light', gross: '₹60,800', absentDed: '- ₹8,077', leaveDed: '- ₹0', pfEsi: '- ₹5,496', netPay: '₹47,027', status: 'Paid', statusClass: 'approved' },
-                  { initials: 'MV', name: 'Meena Velu', role: 'Software Dev', bgClass: 'bg-green-light', gross: '₹45,400', absentDed: '- ₹0', leaveDed: '- ₹1,000', pfEsi: '- ₹4,061', netPay: '₹40,339', status: 'Pending', statusClass: 'pending' },
-                  { initials: 'SB', name: 'Suresh Babu', role: 'Support', bgClass: 'bg-red-light', gross: '₹32,800', absentDed: '- ₹846', leaveDed: '- ₹2,000', pfEsi: '- ₹2,886', netPay: '₹26,668', status: 'Held', statusClass: 'rejected' },
-                  { initials: 'LR', name: 'Lakshmi Rajan', role: 'Marketing', bgClass: 'bg-blue-light', gross: '₹55,200', absentDed: '- ₹0', leaveDed: '- ₹4,000', pfEsi: '- ₹4,974', netPay: '₹46,026', status: 'Pending', statusClass: 'pending' }
-                ].map((emp, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="emp-cell">
-                        <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
-                        <div className="emp-details">
-                          <span className="emp-name">{emp.name}</span>
-                          <span className="emp-id" style={{ fontSize: '0.85rem', color: '#6b7280' }}>{emp.role}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="center-col">{emp.gross}</td>
-                    <td className="center-col" style={{ color: emp.absentDed !== '- ₹0' ? '#991b1b' : '#6b7280' }}>{emp.absentDed}</td>
-                    <td className="center-col" style={{ color: emp.leaveDed !== '- ₹0' ? '#991b1b' : '#6b7280' }}>{emp.leaveDed}</td>
-                    <td className="center-col" style={{ color: '#991b1b' }}>{emp.pfEsi}</td>
-                    <td className="center-col" style={{ color: '#15803d', fontWeight: '600' }}>{emp.netPay}</td>
-                    <td className="center-col">
-                      <span className={`status-pill ${emp.statusClass}`}>{emp.status}</span>
-                    </td>
+            <PaginatedView isTransitioning={salaryPayrollPagination.isTransitioning}>
+              <table className="employees-table">
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th className="center-col">Gross</th>
+                    <th className="center-col">Absent ded.</th>
+                    <th className="center-col">Leave ded.</th>
+                    <th className="center-col">PF+ESI</th>
+                    <th className="center-col">Net pay</th>
+                    <th className="center-col">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {salaryPayrollPagination.paginatedData.map((emp, index) => (
+                    <tr key={index}>
+                      <td>
+                        <div className="emp-cell">
+                          <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
+                          <div className="emp-details">
+                            <span className="emp-name">{emp.name}</span>
+                            <span className="emp-id" style={{ fontSize: '0.85rem', color: '#6b7280' }}>{emp.role}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="center-col">{emp.gross}</td>
+                      <td className="center-col" style={{ color: emp.absentDed !== '- ₹0' ? '#991b1b' : '#6b7280' }}>{emp.absentDed}</td>
+                      <td className="center-col" style={{ color: emp.leaveDed !== '- ₹0' ? '#991b1b' : '#6b7280' }}>{emp.leaveDed}</td>
+                      <td className="center-col" style={{ color: '#991b1b' }}>{emp.pfEsi}</td>
+                      <td className="center-col" style={{ color: '#15803d', fontWeight: '600' }}>{emp.netPay}</td>
+                      <td className="center-col">
+                        <span className={`status-pill ${emp.statusClass}`}>{emp.status}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </PaginatedView>
+            <Pagination {...salaryPayrollPagination} />
           </section>
         </AnimatedTab>
       )}

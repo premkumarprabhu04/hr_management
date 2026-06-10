@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../CustomDatePicker.css';
+import { usePagination, PaginatedView } from '../../hooks/usePagination';
+import Pagination from '../Shared/Pagination';
 import './EmployeeLeave.css';
 
 // Animated tab content wrapper
@@ -66,8 +68,40 @@ const EmployeeLeave = ({ employeeData, dashboardData, setActiveMenu }) => {
       approvedBy: 'HR Kavitha',
       status: 'rejected',
       deduction: 'No deduction'
+    },
+    {
+      id: 4,
+      type: 'Sick leave',
+      dateStr: '15 Feb 2026',
+      days: 1,
+      reason: 'Doctor appointment',
+      approvedBy: 'HR Kavitha',
+      status: 'approved',
+      deduction: '- ₹1,000 deducted'
+    },
+    {
+      id: 5,
+      type: 'Earned leave',
+      dateStr: '20 Jan 2026 → 24 Jan 2026',
+      days: 5,
+      reason: 'Family vacation',
+      approvedBy: 'HR Kavitha',
+      status: 'approved',
+      deduction: 'No deduction'
+    },
+    {
+      id: 6,
+      type: 'Casual leave',
+      dateStr: '05 Jan 2026',
+      days: 1,
+      reason: 'Personal work',
+      approvedBy: 'HR Kavitha',
+      status: 'approved',
+      deduction: '- ₹1,000 deducted'
     }
   ];
+
+  const reqPaginationProps = usePagination(leaveRequests, 5);
 
   return (
     <div className="employee-leave-view">
@@ -260,33 +294,38 @@ const EmployeeLeave = ({ employeeData, dashboardData, setActiveMenu }) => {
       {activeTab === 'requests' && (
         <AnimatedTab tabKey="requests">
           <div className="leave-tab-content">
-            <div className="card my-requests-card">
-              <h3>My leave requests</h3>
-
-              <div className="requests-list">
-                {leaveRequests.map((req) => (
-                  <div key={req.id} className="request-item">
-                    <div className="request-left">
-                      <div className="request-title-row">
-                        <span className="request-type">{req.type}</span>
-                        <span className="request-date">{req.dateStr} · {req.days} {req.days > 1 ? 'days' : 'day'}</span>
-                      </div>
-                      <p className="request-reason">Reason: {req.reason}</p>
-                      {req.status === 'approved' ? (
-                        <p className="request-approved-by">Approved by {req.approvedBy}</p>
-                      ) : (
-                        <p className="request-approved-by">Rejected by {req.approvedBy}</p>
-                      )}
-                    </div>
-                    <div className="request-right">
-                      <span className={`status-pill ${req.status}`}>{req.status}</span>
-                      <span className={`request-deduction ${req.status === 'rejected' ? 'text-red' : 'text-green'}`}>
-                        {req.deduction}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+            <div className="card my-requests-card" style={{ padding: 0, overflow: 'hidden' }}>
+              <div style={{ padding: '24px 24px 0 24px' }}>
+                <h3 style={{ margin: 0, marginBottom: '20px' }}>My leave requests</h3>
               </div>
+
+              <PaginatedView isTransitioning={reqPaginationProps.isTransitioning}>
+                <div className="requests-list" style={{ padding: '0 24px' }}>
+                  {reqPaginationProps.paginatedData.map((req) => (
+                    <div key={req.id} className="request-item">
+                      <div className="request-left">
+                        <div className="request-title-row">
+                          <span className="request-type">{req.type}</span>
+                          <span className="request-date">{req.dateStr} · {req.days} {req.days > 1 ? 'days' : 'day'}</span>
+                        </div>
+                        <p className="request-reason">Reason: {req.reason}</p>
+                        {req.status === 'approved' ? (
+                          <p className="request-approved-by">Approved by {req.approvedBy}</p>
+                        ) : (
+                          <p className="request-approved-by">Rejected by {req.approvedBy}</p>
+                        )}
+                      </div>
+                      <div className="request-right">
+                        <span className={`status-pill ${req.status}`}>{req.status}</span>
+                        <span className={`request-deduction ${req.status === 'rejected' ? 'text-red' : 'text-green'}`}>
+                          {req.deduction}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </PaginatedView>
+              <Pagination {...reqPaginationProps} />
             </div>
           </div>
         </AnimatedTab>

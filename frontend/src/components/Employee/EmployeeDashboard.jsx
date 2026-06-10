@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './EmployeeDashboard.css';
+import '../HRDashboard/HRDashboard.css';
 import EmployeeSalary from './EmployeeSalary';
 import EmployeeLeave from './EmployeeLeave';
 import EmployeeProfile from './EmployeeProfile';
@@ -36,12 +37,113 @@ const EmployeeDashboard = ({ onLogout }) => {
     navigate(`/employee/${newView}`);
   };
 
+  const [leaveSheetTab, setLeaveSheetTab] = useState('balance');
+
+  // HR-style leave balance sheet view
+  const renderLeaveBalanceSheet = () => (
+    <div className="leave-sheet-view">
+      <header className="dashboard-header leave-header" style={{ alignItems: 'flex-start' }}>
+        <div className="leave-welcome-text">
+          <h1>Leave management</h1>
+          <p>Leave balance — all employees</p>
+        </div>
+        <div className="leave-tabs-container" style={{ marginLeft: 'auto' }}>
+          <button className={`leave-tab ${leaveSheetTab === 'pending' ? 'active' : ''}`} onClick={() => setLeaveSheetTab('pending')}>Pending requests</button>
+          <button className={`leave-tab ${leaveSheetTab === 'history' ? 'active' : ''}`} onClick={() => setLeaveSheetTab('history')}>Approved history</button>
+          <button className={`leave-tab ${leaveSheetTab === 'balance' ? 'active' : ''}`} onClick={() => setLeaveSheetTab('balance')}>Leave balance</button>
+        </div>
+      </header>
+
+      <div className="leave-requests-list" style={{ paddingBottom: '0' }}>
+        {leaveBalanceList.map((emp, index) => (
+          <div key={index} className="leave-balance-card">
+            <div className="lb-header">
+              <div className="lb-user-info">
+                <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
+                <div className="lb-details">
+                  <h3>{emp.name}</h3>
+                  <p>{emp.role}</p>
+                </div>
+              </div>
+              <div className="lb-summary">
+                <div className="lb-chip cl">
+                  <span className="chip-label">CL</span>
+                  <span className="chip-value">{emp.clUsed}/{emp.clTotal}</span>
+                </div>
+                <div className="lb-chip sl">
+                  <span className="chip-label">SL</span>
+                  <span className="chip-value">{emp.slUsed}/{emp.slTotal}</span>
+                </div>
+                <div className="lb-chip el">
+                  <span className="chip-label">EL</span>
+                  <span className="chip-value">{emp.elUsed}/{emp.elTotal}</span>
+                </div>
+              </div>
+            </div>
+            <div className="lb-progress-bars">
+              <div className="lb-progress-item">
+                <div className="lb-progress-labels">
+                  <span className="prog-title">Casual leave</span>
+                  <span className="prog-count">{emp.clUsed} of {emp.clTotal} used</span>
+                </div>
+                <div className="lb-progress-track">
+                  <div className="lb-progress-fill fill-casual" style={{ width: `${(emp.clUsed / emp.clTotal) * 100}%` }}></div>
+                </div>
+              </div>
+              <div className="lb-progress-item">
+                <div className="lb-progress-labels">
+                  <span className="prog-title">Sick leave</span>
+                  <span className="prog-count">{emp.slUsed} of {emp.slTotal} used</span>
+                </div>
+                <div className="lb-progress-track">
+                  <div className="lb-progress-fill fill-sick" style={{ width: `${(emp.slUsed / emp.slTotal) * 100}%` }}></div>
+                </div>
+              </div>
+              <div className="lb-progress-item">
+                <div className="lb-progress-labels">
+                  <span className="prog-title">Earned leave</span>
+                  <span className="prog-count">{emp.elUsed} of {emp.elTotal} used</span>
+                </div>
+                <div className="lb-progress-track">
+                  <div className="lb-progress-fill fill-earned" style={{ width: `${(emp.elUsed / emp.elTotal) * 100}%` }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 12, color: '#6b7280', fontSize: '13px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 18 }}>
+          <div>Showing 1 to {leaveBalanceList.length} of {leaveBalanceList.length} entries</div>
+          <div>
+            Rows per page:
+            <select style={{ marginLeft: 8 }} defaultValue="5">
+              <option>5</option>
+              <option>10</option>
+              <option>25</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const employeeData = {
     name: 'Ramesh Kumar',
     empId: 'EMP-0045',
     status: 'Present',
     initials: 'RK',
   };
+
+  // sample leave balance list (HR-style) for the sheet view
+  const leaveBalanceList = [
+    { initials: 'RK', name: 'Ramesh Kumar', role: 'Software Dev', bgClass: 'bg-green-light', clUsed: 1, clTotal: 12, slUsed: 2, slTotal: 6, elUsed: 0, elTotal: 15 },
+    { initials: 'PS', name: 'Priya Shankar', role: 'HR', bgClass: 'bg-orange-light', clUsed: 3, clTotal: 12, slUsed: 2, slTotal: 6, elUsed: 0, elTotal: 15 },
+    { initials: 'AJ', name: 'Arjun John', role: 'Finance', bgClass: 'bg-red-light', clUsed: 5, clTotal: 12, slUsed: 1, slTotal: 6, elUsed: 2, elTotal: 15 },
+    { initials: 'MV', name: 'Meena Velu', role: 'Software Dev', bgClass: 'bg-green-light', clUsed: 1, clTotal: 12, slUsed: 0, slTotal: 6, elUsed: 1, elTotal: 15 },
+    { initials: 'SB', name: 'Suresh Babu', role: 'Support', bgClass: 'bg-green-light', clUsed: 2, clTotal: 12, slUsed: 2, slTotal: 6, elUsed: 0, elTotal: 15 }
+  ];
 
   const dashboardData = {
     date: 'Thursday, 15 May 2026',
@@ -254,7 +356,8 @@ const EmployeeDashboard = ({ onLogout }) => {
                     </div>
                   ))}
                 </div>
-                <button className="apply-leave-btn" onClick={() => setActiveMenu('leave')}>
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
+                    <button className="apply-leave-btn" onClick={() => setActiveMenu('leave')}>
                   <span className="btn-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{width: '16px', height: '16px', marginRight: '6px', verticalAlign: '-3px'}}>
                       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -264,8 +367,10 @@ const EmployeeDashboard = ({ onLogout }) => {
                       <line x1="12" y1="14" x2="12" y2="18" />
                       <line x1="10" y1="16" x2="14" y2="16" />
                     </svg>
-                  </span> Apply for leave
-                </button>
+                    </span>
+                  </button>
+                  <button className="btn-secondary" onClick={() => setActiveMenu('leave-balance')}>View leave balance (all)</button>
+                </div>
               </div>
 
               {/* Latest Salary Slip */}
@@ -364,8 +469,8 @@ const EmployeeDashboard = ({ onLogout }) => {
       {/* Main Content with page transition */}
       <main className="employee-main">
         <AnimatedPage pageKey={activeMenu}>
-          {renderContent()}
-        </AnimatedPage>
+            {activeMenu === 'leave-balance' ? renderLeaveBalanceSheet() : renderContent()}
+          </AnimatedPage>
       </main>
     </div>
   );

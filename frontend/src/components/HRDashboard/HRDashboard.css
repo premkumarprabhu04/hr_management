@@ -1279,86 +1279,139 @@
 .status-pill.approved { background-color: #dcfce7; color: #166534; }
 .status-pill.rejected { background-color: #fee2e2; color: #991b1b; }
 
+/* ── Leave Balance Card ─────────────────────────────────────────── */
 .leave-balance-card {
-  background: white;
+  background: #fff;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: 14px;
+  padding: 18px 24px 20px;
 }
 
+/* Top row: avatar+name left | CL/SL/EL right */
 .lb-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
+  gap: 16px;
+  margin-bottom: 18px;
 }
 
 .lb-user-info {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.lb-details {
+  min-width: 0;
 }
 
 .lb-details h3 {
-  margin: 0 0 4px 0;
-  font-size: 1.265rem;
-  color: #111827;
+  margin: 0 0 2px;
+  font-size: 0.98rem;
   font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lb-details p {
   margin: 0;
+  font-size: 0.82rem;
   color: #6b7280;
-  font-size: 1.045rem;
+  white-space: nowrap;
 }
 
+/* CL / SL / EL chips — pinned to right, never wrap */
 .lb-summary {
   display: flex;
   gap: 16px;
-  font-size: 1.045rem;
-  font-weight: 500;
-  color: #4b5563;
+  flex-shrink: 0;
+  align-items: center;
 }
 
-.lb-summary span strong {
+.lb-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 48px;
+  text-align: center;
+}
+
+.lb-chip .chip-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.lb-chip .chip-value {
+  font-size: 0.88rem;
   font-weight: 700;
   color: #111827;
+  white-space: nowrap;
+  line-height: 1;
 }
 
+.lb-chip.cl .chip-label { color: #15803d; }
+.lb-chip.sl .chip-label { color: #2563eb; }
+.lb-chip.el .chip-label { color: #92400e; }
+
+/* ── Progress bars: 3 equal columns ──────────────────────────── */
 .lb-progress-bars {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 18px;
 }
 
 .lb-progress-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
+/* label LEFT  |  count RIGHT  — both on the same row */
 .lb-progress-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.99rem;
-  color: #4b5563;
+  align-items: baseline;
+}
+
+.lb-progress-labels .prog-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.lb-progress-labels .prog-count {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  white-space: nowrap;
 }
 
 .lb-progress-track {
-  height: 8px;
-  background-color: #f4f4f5;
-  border-radius: 4px;
+  height: 7px;
+  background-color: #f3f4f6;
+  border-radius: 99px;
   overflow: hidden;
 }
 
 .lb-progress-fill {
   height: 100%;
-  border-radius: 4px;
+  border-radius: 99px;
+  transition: width 0.5s ease;
 }
 
-.fill-casual { background-color: #15803d; }
-.fill-sick { background-color: #3b82f6; }
-.fill-earned { background-color: #854d0e; }
+.fill-casual { background-color: #16a34a; }
+.fill-sick   { background-color: #3b82f6; }
+.fill-earned { background-color: #92400e; }
 
 /* Reports View Styles */
 .reports-header-actions {

@@ -582,3 +582,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Overrides for HR-style leave sheet when rendered inside employee dashboard */
+.leave-sheet-view {
+  padding: 8px 0 24px;
+}
+.leave-sheet-view .leave-balance-card {
+  background: #ffffff;
+  border: 1px solid #e6edf3;
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+}
+.leave-sheet-view .lb-header { margin-bottom: 14px; }
+.leave-sheet-view .avatar-circle { width: 48px; height: 48px; font-size: 15px; }
+.leave-sheet-view .lb-details h3 { font-size: 1rem; }
+.leave-sheet-view .lb-chip .chip-value { font-weight: 700; color: #111827; }
+.leave-sheet-view .lb-chip .chip-label { font-weight: 800; }
+.leave-sheet-view .lb-progress-track { height: 8px; background: #f3f7fa; }
+.leave-sheet-view .lb-progress-fill { height: 100%; border-radius: 99px; }
+.leave-sheet-view .fill-casual { background-color: #15803d; }
+.leave-sheet-view .fill-sick { background-color: #2563eb; }
+.leave-sheet-view .fill-earned { background-color: #854d0e; }
+.leave-sheet-view .lb-progress-item { padding-bottom: 4px; }
+.leave-sheet-view .prog-title { color: #374151; }
+.leave-sheet-view .prog-count { color: #6b7280; }
+
+/* Ensure chips on right are compact */
+.leave-sheet-view .lb-summary { gap: 12px; }
+.leave-sheet-view .lb-chip { min-width: 56px; padding: 2px 6px; }
+
+/* Slight visual emphasis for the sheet header */
+.leave-sheet-view .dashboard-header.leave-header { padding-bottom: 12px; border-bottom: 1px solid #eef2f6; margin-bottom: 18px; }
