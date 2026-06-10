@@ -4,13 +4,57 @@ import './HRDashboard.css';
 import AddEmployeeModal from './AddEmployeeModal';
 import Calendar from './Calendar';
 
+// Animated page wrapper — fades + slides in on every view change
+const AnimatedPage = ({ children, pageKey }) => {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    setVisible(false);
+    const t = setTimeout(() => setVisible(true), 10);
+    return () => clearTimeout(t);
+  }, [pageKey]);
+  return (
+    <div
+      key={pageKey}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(12px)',
+        transition: 'opacity 0.28s ease, transform 0.28s ease',
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// Animated tab wrapper
+const AnimatedTab = ({ children, tabKey }) => {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    setVisible(false);
+    const t = setTimeout(() => setVisible(true), 10);
+    return () => clearTimeout(t);
+  }, [tabKey]);
+  return (
+    <div
+      key={tabKey}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(10px)',
+        transition: 'opacity 0.24s ease, transform 0.24s ease',
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
 const HRDashboard = ({ onLogout }) => {
   const { view } = useParams();
   const navigate = useNavigate();
   const currentView = view || 'dashboard';
 
   const setCurrentView = (newView) => {
-    navigate(`/${newView}`);
+    navigate(`/hr/${newView}`);
   };
 
   const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
@@ -284,7 +328,7 @@ const HRDashboard = ({ onLogout }) => {
       </header>
 
       {attendanceViewMode === 'daily' ? (
-        <>
+        <AnimatedTab tabKey="daily">
           <section className="attendance-stats-grid">
             <div className="attendance-stat-card border-green">
               <h3>Present</h3>
@@ -339,9 +383,9 @@ const HRDashboard = ({ onLogout }) => {
               </tbody>
             </table>
           </section>
-        </>
+        </AnimatedTab>
       ) : (
-        <>
+        <AnimatedTab tabKey="monthly">
           <section className="attendance-summary-top-row">
             <div className="attendance-filter-pill">
               <select>
@@ -392,7 +436,7 @@ const HRDashboard = ({ onLogout }) => {
               </div>
             ))}
           </section>
-        </>
+        </AnimatedTab>
       )}
     </>
   );
@@ -463,7 +507,7 @@ const HRDashboard = ({ onLogout }) => {
 
       {/* ── OVERVIEW TAB ── */}
       {reportsActiveTab === 'overview' && (
-        <>
+        <AnimatedTab tabKey="overview">
           <section className="reports-summary-grid">
             <div className="report-summary-card">
               <h3>Avg attendance</h3>
@@ -547,12 +591,12 @@ const HRDashboard = ({ onLogout }) => {
               ))}
             </div>
           </section>
-        </>
+        </AnimatedTab>
       )}
 
       {/* ── ATTENDANCE TAB ── */}
       {reportsActiveTab === 'attendance' && (
-        <>
+        <AnimatedTab tabKey="attendance">
           <div className="reports-filter-row">
             <div className="reports-filters-left">
               <select className="reports-filter-select" defaultValue="all">
@@ -619,12 +663,12 @@ const HRDashboard = ({ onLogout }) => {
               </table>
             </div>
           </section>
-        </>
+        </AnimatedTab>
       )}
 
       {/* ── SALARY TAB ── */}
       {reportsActiveTab === 'salary' && (
-        <>
+        <AnimatedTab tabKey="salary">
           {/* Export buttons */}
           <div className="reports-filter-row">
             <div className="reports-filters-left"></div>
@@ -746,12 +790,12 @@ const HRDashboard = ({ onLogout }) => {
               </table>
             </div>
           </section>
-        </>
+        </AnimatedTab>
       )}
 
       {/* ── EXPORT TAB ── */}
       {reportsActiveTab === 'export' && (
-        <>
+        <AnimatedTab tabKey="export">
           <section className="reports-export-section">
             <h3 className="section-title" style={{ marginBottom: '16px', fontSize: '1.1rem', fontWeight: '600' }}>Download reports</h3>
             
@@ -893,7 +937,7 @@ const HRDashboard = ({ onLogout }) => {
               <button className="btn-export-large pdf"><span>📄</span> Export PDF</button>
             </div>
           </section>
-        </>
+        </AnimatedTab>
       )}
 
       {['overview', 'attendance', 'salary', 'export'].indexOf(reportsActiveTab) === -1 && (
@@ -926,7 +970,7 @@ const HRDashboard = ({ onLogout }) => {
       </header>
 
       {leaveActiveTab === 'pending' && (
-        <>
+        <AnimatedTab tabKey="pending">
           <section className="leave-stats-grid">
             <div className="leave-stat-card pending">
               <h3>Pending</h3>
@@ -972,95 +1016,99 @@ const HRDashboard = ({ onLogout }) => {
               </div>
             ))}
           </div>
-        </>
+        </AnimatedTab>
       )}
 
       {leaveActiveTab === 'history' && (
-        <section className="employees-table-container">
-          <table className="employees-table leave-history-table">
-            <thead>
-              <tr>
-                <th>Employee</th>
-                <th>Type</th>
-                <th>Period</th>
-                <th className="center-col">Days</th>
-                <th className="center-col">Deduction</th>
-                <th className="right-col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaveHistoryData.map((record, index) => (
-                <tr key={index}>
-                  <td>
-                    <div className="emp-cell">
-                      <div className={`avatar-circle ${record.bgClass}`}>{record.initials}</div>
-                      <span className="emp-name">{record.name}</span>
-                    </div>
-                  </td>
-                  <td><span className={`lr-badge ${record.typeClass}`}>{record.type}</span></td>
-                  <td className="multi-line" style={{ whiteSpace: 'pre-line', lineHeight: '1.4' }}>{record.dateRange}</td>
-                  <td className="center-col">{record.days}</td>
-                  <td className="center-col" style={{ color: record.deduction.startsWith('-') ? '#991b1b' : 'inherit' }}>{record.deduction}</td>
-                  <td className="right-col">
-                    <span className={`status-pill ${record.status === 'Approved' ? 'approved' : 'rejected'}`}>{record.status}</span>
-                  </td>
+        <AnimatedTab tabKey="history">
+          <section className="employees-table-container">
+            <table className="employees-table leave-history-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Type</th>
+                  <th>Period</th>
+                  <th className="center-col">Days</th>
+                  <th className="center-col">Deduction</th>
+                  <th className="right-col">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+              </thead>
+              <tbody>
+                {leaveHistoryData.map((record, index) => (
+                  <tr key={index}>
+                    <td>
+                      <div className="emp-cell">
+                        <div className={`avatar-circle ${record.bgClass}`}>{record.initials}</div>
+                        <span className="emp-name">{record.name}</span>
+                      </div>
+                    </td>
+                    <td><span className={`lr-badge ${record.typeClass}`}>{record.type}</span></td>
+                    <td className="multi-line" style={{ whiteSpace: 'pre-line', lineHeight: '1.4' }}>{record.dateRange}</td>
+                    <td className="center-col">{record.days}</td>
+                    <td className="center-col" style={{ color: record.deduction.startsWith('-') ? '#991b1b' : 'inherit' }}>{record.deduction}</td>
+                    <td className="right-col">
+                      <span className={`status-pill ${record.status === 'Approved' ? 'approved' : 'rejected'}`}>{record.status}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        </AnimatedTab>
       )}
 
       {leaveActiveTab === 'balance' && (
-        <div className="leave-requests-list">
-          {leaveBalanceData.map((emp, index) => (
-            <div key={index} className="leave-balance-card">
-              <div className="lb-header">
-                <div className="lb-user-info">
-                  <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
-                  <div className="lb-details">
-                    <h3>{emp.name}</h3>
-                    <p>{emp.role}</p>
+        <AnimatedTab tabKey="balance">
+          <div className="leave-requests-list">
+            {leaveBalanceData.map((emp, index) => (
+              <div key={index} className="leave-balance-card">
+                <div className="lb-header">
+                  <div className="lb-user-info">
+                    <div className={`avatar-circle ${emp.bgClass}`}>{emp.initials}</div>
+                    <div className="lb-details">
+                      <h3>{emp.name}</h3>
+                      <p>{emp.role}</p>
+                    </div>
+                  </div>
+                  <div className="lb-summary">
+                    <span>CL: <strong>{emp.clUsed}/{emp.clTotal}</strong></span>
+                    <span>SL: <strong>{emp.slUsed}/{emp.slTotal}</strong></span>
+                    <span>EL: <strong>{emp.elUsed}/{emp.elTotal}</strong></span>
                   </div>
                 </div>
-                <div className="lb-summary">
-                  <span>CL: <strong>{emp.clUsed}/{emp.clTotal}</strong></span>
-                  <span>SL: <strong>{emp.slUsed}/{emp.slTotal}</strong></span>
-                  <span>EL: <strong>{emp.elUsed}/{emp.elTotal}</strong></span>
+                <div className="lb-progress-bars">
+                  <div className="lb-progress-item">
+                    <div className="lb-progress-labels">
+                      <span>Casual leave</span>
+                      <span>{emp.clUsed} of {emp.clTotal} used</span>
+                    </div>
+                    <div className="lb-progress-track">
+                      <div className="lb-progress-fill fill-casual" style={{ width: `${(emp.clUsed / emp.clTotal) * 100}%` }}></div>
+                    </div>
+                  </div>
+                  <div className="lb-progress-item">
+                    <div className="lb-progress-labels">
+                      <span>Sick leave</span>
+                      <span>{emp.slUsed} of {emp.slTotal} used</span>
+                    </div>
+                    <div className="lb-progress-track">
+                      <div className="lb-progress-fill fill-sick" style={{ width: `${(emp.slUsed / emp.slTotal) * 100}%` }}></div>
+                    </div>
+                  </div>
+                  <div className="lb-progress-item">
+                    <div className="lb-progress-labels">
+                      <span>Earned leave</span>
+                      <span>{emp.elUsed} of {emp.elTotal} used</span>
+                    </div>
+                    <div className="lb-progress-track">
+                      <div className="lb-progress-fill fill-earned" style={{ width: `${(emp.elUsed / emp.elTotal) * 100}%` }}></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="lb-progress-bars">
-                <div className="lb-progress-item">
-                  <div className="lb-progress-labels">
-                    <span>Casual leave</span>
-                    <span>{emp.clUsed} of {emp.clTotal} used</span>
-                  </div>
-                  <div className="lb-progress-track">
-                    <div className="lb-progress-fill fill-casual" style={{ width: `${(emp.clUsed / emp.clTotal) * 100}%` }}></div>
-                  </div>
-                </div>
-                <div className="lb-progress-item">
-                  <div className="lb-progress-labels">
-                    <span>Sick leave</span>
-                    <span>{emp.slUsed} of {emp.slTotal} used</span>
-                  </div>
-                  <div className="lb-progress-track">
-                    <div className="lb-progress-fill fill-sick" style={{ width: `${(emp.slUsed / emp.slTotal) * 100}%` }}></div>
-                  </div>
-                </div>
-                <div className="lb-progress-item">
-                  <div className="lb-progress-labels">
-                    <span>Earned leave</span>
-                    <span>{emp.elUsed} of {emp.elTotal} used</span>
-                  </div>
-                  <div className="lb-progress-track">
-                    <div className="lb-progress-fill fill-earned" style={{ width: `${(emp.elUsed / emp.elTotal) * 100}%` }}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </AnimatedTab>
       )}
     </>
   );
@@ -1315,102 +1363,93 @@ const HRDashboard = ({ onLogout }) => {
       </header>
 
       {salaryActiveTab === 'slip' && (
-        <>
-          <div className="salary-filters">
-        <select className="salary-select">
-          <option>Ramesh Kumar</option>
-        </select>
-        <select className="salary-select">
-          <option>May 2026</option>
-        </select>
-      </div>
+        <AnimatedTab tabKey="slip">
+          <div className="salary-content-grid">
+            <div className="salary-card">
+              <div className="employee-salary-header">
+                <div className="avatar-circle bg-green" style={{ width: '48px', height: '48px', fontSize: '1.2rem' }}>RK</div>
+                <div className="emp-details">
+                  <span className="emp-name" style={{ fontSize: '1.1rem', color: '#111827' }}>Ramesh Kumar</span>
+                  <span className="emp-id" style={{ fontSize: '0.9rem' }}>EMP-001 · Software Dev</span>
+                </div>
+              </div>
 
-      <div className="salary-content-grid">
-        <div className="salary-card">
-          <div className="employee-salary-header">
-            <div className="avatar-circle bg-green" style={{ width: '48px', height: '48px', fontSize: '1.2rem' }}>RK</div>
-            <div className="emp-details">
-              <span className="emp-name" style={{ fontSize: '1.1rem', color: '#111827' }}>Ramesh Kumar</span>
-              <span className="emp-id" style={{ fontSize: '0.9rem' }}>EMP-001 · Software Dev</span>
+              <hr className="divider" />
+
+              <h3 className="section-title">Earnings</h3>
+
+              <div className="salary-list">
+                <div className="salary-item">
+                  <span className="item-label">Basic salary</span>
+                  <span className="item-value">₹35,000</span>
+                </div>
+                <div className="salary-item">
+                  <span className="item-label">HRA (40%)</span>
+                  <span className="item-value">₹14,000</span>
+                </div>
+                <div className="salary-item">
+                  <span className="item-label">Travel allowance</span>
+                  <span className="item-value">₹2,000</span>
+                </div>
+              </div>
+
+              <hr className="divider" />
+
+              <div className="salary-item gross-salary">
+                <span className="item-label">Gross salary</span>
+                <span className="item-value text-green">₹51,000</span>
+              </div>
+            </div>
+
+            <div className="salary-card">
+              <h3 className="section-title">Deductions</h3>
+
+              <div className="salary-list">
+                <div className="salary-item">
+                  <span className="item-label">2 absent days</span>
+                  <span className="item-value text-red">- ₹2,692</span>
+                </div>
+                <div className="salary-item">
+                  <span className="item-label">1 leave days (₹1,000/day)</span>
+                  <span className="item-value text-red multi-line-value">-<br />₹1,000</span>
+                </div>
+                <div className="salary-item">
+                  <span className="item-label">Late arrivals deduction</span>
+                  <span className="item-value text-red">- ₹600</span>
+                </div>
+                <div className="salary-item">
+                  <span className="item-label">PF (12% of basic)</span>
+                  <span className="item-value text-red">- ₹4,200</span>
+                </div>
+                <div className="salary-item">
+                  <span className="item-label">ESI (0.75% of gross)</span>
+                  <span className="item-value text-red multi-line-value">-<br />₹383</span>
+                </div>
+              </div>
+
+              <div className="net-salary-box">
+                <div className="net-salary-labels">
+                  <h4>Net salary payable</h4>
+                  <p>After all deductions</p>
+                </div>
+                <div className="net-salary-amount">₹42,125</div>
+              </div>
             </div>
           </div>
 
-          <hr className="divider" />
-
-          <h3 className="section-title">Earnings</h3>
-
-          <div className="salary-list">
-            <div className="salary-item">
-              <span className="item-label">Basic salary</span>
-              <span className="item-value">₹35,000</span>
-            </div>
-            <div className="salary-item">
-              <span className="item-label">HRA (40%)</span>
-              <span className="item-value">₹14,000</span>
-            </div>
-            <div className="salary-item">
-              <span className="item-label">Travel allowance</span>
-              <span className="item-value">₹2,000</span>
-            </div>
+          <div className="salary-actions">
+            <button className="btn-secondary">
+              <span className="icon">📄</span> Download PDF
+            </button>
+            <button className="btn-primary-green">
+              <span className="icon">✅</span> Mark as paid
+            </button>
           </div>
-
-          <hr className="divider" />
-
-          <div className="salary-item gross-salary">
-            <span className="item-label">Gross salary</span>
-            <span className="item-value text-green">₹51,000</span>
-          </div>
-        </div>
-
-        <div className="salary-card">
-          <h3 className="section-title">Deductions</h3>
-
-          <div className="salary-list">
-            <div className="salary-item">
-              <span className="item-label">2 absent days</span>
-              <span className="item-value text-red">- ₹2,692</span>
-            </div>
-            <div className="salary-item">
-              <span className="item-label">1 leave days (₹1,000/day)</span>
-              <span className="item-value text-red multi-line-value">-<br />₹1,000</span>
-            </div>
-            <div className="salary-item">
-              <span className="item-label">Late arrivals deduction</span>
-              <span className="item-value text-red">- ₹600</span>
-            </div>
-            <div className="salary-item">
-              <span className="item-label">PF (12% of basic)</span>
-              <span className="item-value text-red">- ₹4,200</span>
-            </div>
-            <div className="salary-item">
-              <span className="item-label">ESI (0.75% of gross)</span>
-              <span className="item-value text-red multi-line-value">-<br />₹383</span>
-            </div>
-          </div>
-
-          <div className="net-salary-box">
-            <div className="net-salary-labels">
-              <h4>Net salary payable</h4>
-              <p>After all deductions</p>
-            </div>
-            <div className="net-salary-amount">₹42,125</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="salary-actions">
-        <button className="btn-secondary">
-          <span className="icon">📄</span> Download PDF
-        </button>
-        <button className="btn-primary-green">
-          <span className="icon">✅</span> Mark as paid
-        </button>
-      </div>
-        </>
+        </AnimatedTab>
       )}
 
       {salaryActiveTab === 'payroll' && (
-        <>
+        <AnimatedTab tabKey="payroll">
           <section className="reports-summary-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: '24px' }}>
             <div className="report-summary-card" style={{ border: '2px solid #16a34a', textAlign: 'center' }}>
               <h3 style={{ margin: '0 0 8px 0', fontSize: '0.95rem' }}>Total gross</h3>
@@ -1479,7 +1518,7 @@ const HRDashboard = ({ onLogout }) => {
               </tbody>
             </table>
           </section>
-        </>
+        </AnimatedTab>
       )}
     </>
   );
@@ -1582,14 +1621,16 @@ const HRDashboard = ({ onLogout }) => {
 
       {/* Main Content */}
       <main className="main-content">
-        {currentView === 'dashboard' && renderDashboardContent()}
-        {currentView === 'employees' && renderEmployeesContent()}
-        {currentView === 'attendance' && renderAttendanceContent()}
-        {currentView === 'calendar' && <Calendar />}
-        {currentView === 'salary' && renderSalaryContent()}
-        {currentView === 'employee-profile' && renderEmployeeProfile()}
-        {currentView === 'leave' && renderLeaveContent()}
-        {currentView === 'reports' && renderReportsContent()}
+        <AnimatedPage pageKey={currentView}>
+          {currentView === 'dashboard' && renderDashboardContent()}
+          {currentView === 'employees' && renderEmployeesContent()}
+          {currentView === 'attendance' && renderAttendanceContent()}
+          {currentView === 'calendar' && <Calendar />}
+          {currentView === 'salary' && renderSalaryContent()}
+          {currentView === 'employee-profile' && renderEmployeeProfile()}
+          {currentView === 'leave' && renderLeaveContent()}
+          {currentView === 'reports' && renderReportsContent()}
+        </AnimatedPage>
       </main>
 
       <AddEmployeeModal isOpen={isAddEmployeeModalOpen} onClose={() => setIsAddEmployeeModalOpen(false)} />

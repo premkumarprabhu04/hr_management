@@ -33,7 +33,7 @@
 }
 
 .calendar-month-nav h2 {
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 600;
   color: #111827;
   min-width: 200px;
@@ -43,7 +43,7 @@
 .nav-arrow {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   cursor: pointer;
   color: #6b7280;
   padding: 8px 12px;
@@ -67,7 +67,7 @@
   border: 1px solid #e5e7eb;
   background: white;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #111827;
   cursor: pointer;
@@ -104,7 +104,7 @@
   text-align: center;
   font-weight: 600;
   color: #6b7280;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   padding: 12px 0;
 }
 
@@ -157,7 +157,7 @@
   font-weight: 600;
   color: #111827;
   margin-bottom: 8px;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .holiday-badge {
@@ -167,7 +167,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   margin-bottom: 8px;
 }
 
@@ -208,7 +208,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  font-size: 0.7rem;
+  font-size: 0.77rem;
   font-weight: 600;
   color: white;
 }
@@ -257,7 +257,7 @@
 .summary-card h3,
 .holidays-card h3,
 .employees-card h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #111827;
   margin-bottom: 16px;
@@ -282,12 +282,12 @@
 }
 
 .stat-label {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #6b7280;
 }
 
 .stat-value {
-  font-size: 1.1rem;
+  font-size: 1.21rem;
   font-weight: 600;
   color: #111827;
 }
@@ -308,7 +308,7 @@
   background: none;
   border: none;
   color: #2563eb;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -328,7 +328,7 @@
 
 .empty-text {
   color: #9ca3af;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   text-align: center;
   padding: 20px 0;
   margin: 0;
@@ -383,14 +383,14 @@
 }
 
 .holiday-name {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 2px 0;
 }
 
 .holiday-date {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: #9ca3af;
   margin: 0;
 }
@@ -399,7 +399,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   padding: 0;
   opacity: 0.5;
   transition: opacity 0.2s;
@@ -440,7 +440,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: white;
   flex-shrink: 0;
 }
@@ -470,7 +470,7 @@
 }
 
 .emp-name {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 500;
   color: #111827;
   margin: 0;

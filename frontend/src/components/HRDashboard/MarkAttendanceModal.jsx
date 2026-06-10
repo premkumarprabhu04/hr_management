@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../CustomDatePicker.css';
 import './MarkAttendanceModal.css';
 
 const MarkAttendanceModal = ({ isOpen, onClose, onSave, onDateChange, employees, selectedDate, currentAttendance }) => {
   const [attendanceStatus, setAttendanceStatus] = useState({});
-  const [dateInput, setDateInput] = useState('');
+  const [dateObj, setDateObj] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -15,10 +18,10 @@ const MarkAttendanceModal = ({ isOpen, onClose, onSave, onDateChange, employees,
 
     if (selectedDate) {
       const parts = selectedDate.split('-');
-      if (parts.length === 3) setDateInput(`${parts[2]}-${parts[1]}-${parts[0]}`);
-      else setDateInput('');
+      if (parts.length === 3) setDateObj(new Date(parts[2], parts[1] - 1, parts[0]));
+      else setDateObj(null);
     } else {
-      setDateInput('');
+      setDateObj(null);
     }
   }, [isOpen, employees, currentAttendance, selectedDate]);
 
@@ -30,16 +33,10 @@ const MarkAttendanceModal = ({ isOpen, onClose, onSave, onDateChange, employees,
   };
 
   const handleSave = () => {
-    // If dateInput changed, notify parent to update selectedDate key
-    if (dateInput && onDateChange) {
-      const parts = dateInput.split('-');
-      if (parts.length === 3) onDateChange(`${parts[2]}-${parts[1]}-${parts[0]}`);
-    }
-    // compute conv date to return to parent so it can save under correct key
     let convDate = null;
-    if (dateInput) {
-      const parts = dateInput.split('-');
-      if (parts.length === 3) convDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    if (dateObj) {
+      convDate = `${String(dateObj.getDate()).padStart(2, '0')}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${dateObj.getFullYear()}`;
+      if (onDateChange) onDateChange(convDate);
     }
     onSave(attendanceStatus, convDate);
   };
@@ -50,13 +47,11 @@ const MarkAttendanceModal = ({ isOpen, onClose, onSave, onDateChange, employees,
     return `${day}-${month}-${year}`;
   };
 
-  const handleDateChange = (e) => {
-    const val = e.target.value; // yyyy-mm-dd
-    setDateInput(val);
-    if (!val) return;
-    const parts = val.split('-');
-    if (parts.length === 3 && onDateChange) {
-      const conv = `${parts[2]}-${parts[1]}-${parts[0]}`; // dd-mm-yyyy
+  const handleDateChange = (date) => {
+    setDateObj(date);
+    if (!date) return;
+    if (onDateChange) {
+      const conv = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
       onDateChange(conv);
     }
   };
@@ -79,13 +74,15 @@ const MarkAttendanceModal = ({ isOpen, onClose, onSave, onDateChange, employees,
 
         <div className="attendance-date-selection">
           <label>Select date</label>
-          <div className="date-input-wrapper">
-            <input
-              type="date"
-              value={dateInput}
+          <div className="date-input-wrapper" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <DatePicker
+              selected={dateObj}
               onChange={handleDateChange}
+              dateFormat="dd-MM-yyyy"
+              placeholderText="dd-mm-yyyy"
+              style={{ width: '100%', padding: '12px', border: '1px solid #ddd', borderRadius: '8px' }}
             />
-            <span className="calendar-icon">📅</span>
+            <span style={{ position: 'absolute', right: '12px', pointerEvents: 'none' }}>📅</span>
           </div>
         </div>
 

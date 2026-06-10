@@ -41,7 +41,7 @@
 }
 
 .sidebar-header h2 {
-  font-size: 1.1rem;
+  font-size: 1.21rem;
   font-weight: 600;
   color: #1a1a2e;
   margin: 0;
@@ -62,7 +62,7 @@
   padding: 12px 16px;
   text-decoration: none;
   color: #666;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.2s;
@@ -124,7 +124,7 @@
   color: #e53e3e;
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 /* Main Content Styles */
@@ -144,7 +144,7 @@
 }
 
 .welcome-text h1 {
-  font-size: 1.75rem;
+  font-size: 1.925rem;
   font-weight: 700;
   color: #1a1a2e;
   margin: 0 0 4px 0;
@@ -153,7 +153,7 @@
 .welcome-text p {
   color: #888;
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .alerts-badge {
@@ -166,7 +166,7 @@
   gap: 8px;
   font-family: inherit;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   line-height: 1.35;
   border: 1px solid #feb2b2;
   cursor: pointer;
@@ -190,7 +190,7 @@
 }
 
 .stat-card h3 {
-  font-size: 0.92rem;
+  font-size: 1.012rem;
   color: #6b7280;
   margin: 0 0 10px 0;
   font-weight: 600;
@@ -198,7 +198,7 @@
 }
 
 .stat-card .value {
-  font-size: 2.2rem;
+  font-size: 2.42rem;
   font-weight: 700;
   color: #1a1a2e;
 }
@@ -221,7 +221,7 @@
 }
 
 .card h2 {
-  font-size: 1.1rem;
+  font-size: 1.21rem;
   font-weight: 600;
   margin: 0 0 24px 0;
   color: #1a1a2e;
@@ -253,7 +253,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 600;
   color: #4b5563;
 }
@@ -266,7 +266,7 @@
 .time-text {
   font-weight: 600;
   color: #d97706;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
 }
 
 /* Action Items */
@@ -282,7 +282,7 @@
   align-items: center;
   gap: 12px;
   color: #444;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .action-label input {
@@ -295,7 +295,7 @@
 .btn-action {
   padding: 6px 16px;
   border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -339,7 +339,7 @@
 .feed-time {
   width: 100px;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
 }
 
 .feed-message {
@@ -351,7 +351,7 @@
 .status-pill {
   padding: 4px 12px;
   border-radius: 50px;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   font-weight: 600;
 }
 
@@ -387,7 +387,7 @@
 .search-box input {
   border: none;
   outline: none;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #374151;
   width: 100%;
   font-family: inherit;
@@ -396,7 +396,7 @@
 
 .search-box .icon {
   color: #9ca3af;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -409,7 +409,7 @@
   gap: 8px;
   border-radius: 14px;
   padding: 10px 18px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -455,7 +455,7 @@
 .employees-table th {
   background: #f8fafc;
   padding: 18px 24px;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 600;
   color: #4b5563;
   border-bottom: 1px solid #e5e7eb;
@@ -465,7 +465,7 @@
   padding: 18px 24px;
   border-bottom: 1px solid #f3f4f6;
   color: #4b5563;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   vertical-align: middle;
 }
 
@@ -498,7 +498,7 @@
 }
 
 .emp-id {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #6b7280;
 }
 
@@ -521,7 +521,7 @@
   padding: 6px 16px;
   color: #1e40af;
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -548,7 +548,7 @@
   background: white;
   border: 1px solid #e5e7eb;
   color: #374151;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .toggle-btn.active {
@@ -575,14 +575,14 @@
 }
 
 .attendance-stat-card h3 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #4b5563;
   margin: 0 0 14px 0;
 }
 
 .attendance-stat-card .value {
-  font-size: 2.2rem;
+  font-size: 2.42rem;
   font-weight: 700;
 }
 
@@ -629,7 +629,7 @@
   border: none;
   outline: none;
   background: transparent;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #111827;
   cursor: pointer;
 }
@@ -648,7 +648,7 @@
   min-width: 98px;
   padding: 10px 14px;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 500;
   color: #111827;
   background: #f8fafc;
@@ -678,12 +678,12 @@
 
 .calendar-title-row h3 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   color: #111827;
 }
 
 .calendar-meta {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #6b7280;
 }
 
@@ -695,7 +695,7 @@
 }
 
 .calendar-weekday {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #6b7280;
@@ -714,7 +714,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #111827;
   background: #f8fafc;
@@ -739,12 +739,12 @@
 }
 
 .attendance-summary-card span {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #6b7280;
 }
 
 .attendance-summary-card strong {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: #111827;
 }
 
@@ -781,7 +781,7 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   background-color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #374151;
   outline: none;
   appearance: none;
@@ -819,7 +819,7 @@
 }
 
 .section-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #374151;
   margin: 0 0 16px 0;
@@ -839,13 +839,13 @@
 
 .item-label {
   color: #4b5563;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .item-value {
   color: #111827;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .multi-line-value {
@@ -855,7 +855,7 @@
 
 .gross-salary .item-label, .gross-salary .item-value {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .net-salary-box {
@@ -872,17 +872,17 @@
 .net-salary-labels h4 {
   margin: 0 0 4px 0;
   color: #16a34a;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .net-salary-labels p {
   margin: 0;
   color: #15803d;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
 }
 
 .net-salary-amount {
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 700;
   color: #15803d;
 }
@@ -1004,7 +1004,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 700;
 }
 
@@ -1021,14 +1021,14 @@
 
 .profile-name-row h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   color: #111827;
 }
 
 .profile-role {
   margin: 0 0 16px 0;
   color: #4b5563;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .profile-tags {
@@ -1042,7 +1042,7 @@
   border: 1px solid #e5e7eb;
   padding: 4px 12px;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #374151;
   display: flex;
   align-items: center;
@@ -1057,7 +1057,7 @@
 }
 
 .section-subtitle {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 600;
   color: #9ca3af;
   letter-spacing: 0.05em;
@@ -1074,13 +1074,13 @@
 }
 
 .leave-welcome-text h1 {
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   margin-bottom: 4px;
 }
 
 .leave-welcome-text p {
   color: #6b7280;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .leave-tabs-container {
@@ -1093,7 +1093,7 @@
   background-color: white;
   border: 1px solid #d1d5db;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #4b5563;
   cursor: pointer;
@@ -1132,14 +1132,14 @@
 .leave-stat-card.rejected { border-color: #b91c1c; }
 
 .leave-stat-card h3 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #4b5563;
   margin: 0 0 12px 0;
 }
 
 .leave-stat-card .value {
-  font-size: 2.25rem;
+  font-size: 2.475rem;
   font-weight: 600;
 }
 .leave-stat-card.pending .value { color: #854d0e; }
@@ -1181,7 +1181,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.21rem;
 }
 .lr-avatar.bg-green-light { background-color: #dcfce7; color: #166534; }
 .lr-avatar.bg-orange-light { background-color: #ffedd5; color: #9a3412; }
@@ -1189,7 +1189,7 @@
 
 .lr-details h3 {
   margin: 0 0 8px 0;
-  font-size: 1.15rem;
+  font-size: 1.265rem;
   color: #111827;
   font-weight: 600;
 }
@@ -1198,14 +1198,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #4b5563;
 }
 
 .lr-badge {
   padding: 4px 12px;
   border-radius: 12px;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 500;
 }
 .lr-badge.casual { background-color: #dcfce7; color: #166534; }
@@ -1216,7 +1216,7 @@
   background-color: #f4f4f5;
   padding: 16px;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #374151;
   margin-bottom: 20px;
 }
@@ -1234,7 +1234,7 @@
   color: #15803d;
   border-radius: 8px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1253,7 +1253,7 @@
   color: #b91c1c;
   border-radius: 8px;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1301,7 +1301,7 @@
 
 .lb-details h3 {
   margin: 0 0 4px 0;
-  font-size: 1.15rem;
+  font-size: 1.265rem;
   color: #111827;
   font-weight: 600;
 }
@@ -1309,13 +1309,13 @@
 .lb-details p {
   margin: 0;
   color: #6b7280;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
 }
 
 .lb-summary {
   display: flex;
   gap: 16px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #4b5563;
 }
@@ -1340,7 +1340,7 @@
 .lb-progress-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #4b5563;
 }
 
@@ -1378,7 +1378,7 @@
   background-color: white;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #4b5563;
   cursor: pointer;
@@ -1426,7 +1426,7 @@
 
 .reports-filter-select {
   padding: 10px 16px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   border: 1px solid #d1d5db;
   border-radius: 8px;
@@ -1456,7 +1456,7 @@
   background-color: white;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #374151;
   cursor: pointer;
@@ -1476,7 +1476,7 @@
   background-color: white;
   border: 1px solid #b91c1c;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #b91c1c;
   cursor: pointer;
@@ -1499,20 +1499,20 @@
 }
 
 .report-summary-card h3 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #4b5563;
   margin: 0 0 16px 0;
 }
 
 .report-summary-card .value {
-  font-size: 2.25rem;
+  font-size: 2.475rem;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
 .report-summary-card .subtext {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #6b7280;
 }
 
@@ -1531,14 +1531,14 @@
 }
 
 .report-chart-card h3 {
-  font-size: 1.15rem;
+  font-size: 1.265rem;
   color: #111827;
   font-weight: 600;
   margin: 0 0 4px 0;
 }
 
 .report-chart-card .subtitle {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #6b7280;
   margin-bottom: 24px;
 }
@@ -1564,7 +1564,7 @@
 }
 
 .bar-value {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #4b5563;
   margin-bottom: 8px;
 }
@@ -1578,7 +1578,7 @@
 
 .bar-label {
   margin-top: 12px;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #6b7280;
   text-align: center;
 }
@@ -1599,7 +1599,7 @@
 .dept-progress-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #111827;
 }
 
@@ -1633,7 +1633,7 @@
 }
 
 .absentees-card h3 {
-  font-size: 1.15rem;
+  font-size: 1.265rem;
   color: #111827;
   font-weight: 600;
   margin: 0 0 24px 0;
@@ -1664,14 +1664,14 @@
 
 .absentee-details h4 {
   margin: 0 0 4px 0;
-  font-size: 1.05rem;
+  font-size: 1.155rem;
   color: #111827;
   font-weight: 600;
 }
 
 .absentee-details p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #6b7280;
 }
 
@@ -1682,14 +1682,14 @@
 }
 
 .absentee-stats span {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #374151;
 }
 
 .risk-badge {
   padding: 6px 16px;
   border-radius: 16px;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 500;
   min-width: 90px;
   text-align: center;
@@ -1716,12 +1716,12 @@
 }
 
 .att-count {
-  font-size: 1.75rem;
+  font-size: 1.925rem;
   font-weight: 600;
 }
 
 .att-label {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #6b7280;
   font-weight: 500;
 }
@@ -1746,14 +1746,14 @@
 
 .d-label {
   color: #6b7280;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   flex-shrink: 0;
 }
 
 .d-value {
   color: #111827;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   line-height: 1.4;
 }
 
@@ -1796,7 +1796,7 @@
   color: #2563eb;
   padding: 4px 12px;
   border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 500;
 }
 
@@ -1829,7 +1829,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   flex-shrink: 0;
 }
 
@@ -1844,14 +1844,14 @@
 .export-card-content h4 {
   margin: 0 0 6px 0;
   color: #111827;
-  font-size: 1.05rem;
+  font-size: 1.155rem;
   font-weight: 600;
 }
 
 .export-card-content p {
   margin: 0 0 16px 0;
   color: #6b7280;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
 }
 
 .export-actions {
@@ -1861,7 +1861,7 @@
 }
 
 .export-formats {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #6b7280;
 }
 
@@ -1873,7 +1873,7 @@
 .btn-export-small {
   padding: 6px 12px;
   border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -1923,7 +1923,7 @@
 }
 
 .filter-group label {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #4b5563;
   font-weight: 500;
 }
@@ -1939,7 +1939,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #374151;
   cursor: pointer;
 }
@@ -1961,7 +1961,7 @@
 .btn-export-large {
   padding: 10px 24px;
   border-radius: 50px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   display: flex;
   align-items: center;

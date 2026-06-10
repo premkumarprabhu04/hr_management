@@ -29,7 +29,7 @@
   right: 20px;
   background: none;
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.98rem;
   cursor: pointer;
   color: #6b7280;
   padding: 0;
@@ -49,14 +49,14 @@
 }
 
 .popup-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 8px 0;
 }
 
 .popup-date {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #6b7280;
   margin: 0;
 }
@@ -74,18 +74,18 @@
 }
 
 .holiday-icon {
-  font-size: 2rem;
+  font-size: 2.2rem;
 }
 
 .holiday-details-info h4 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 4px 0;
 }
 
 .holiday-details-info p {
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #6b7280;
   margin: 0;
 }
@@ -96,7 +96,7 @@
 }
 
 .attendance-summary-popup h3 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 12px 0;
@@ -118,13 +118,13 @@
 }
 
 .badge .count {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #111827;
 }
 
 .badge .label {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: #6b7280;
   text-align: center;
 }
@@ -135,7 +135,7 @@
 }
 
 .employee-status-list h3 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 12px 0;
@@ -151,7 +151,7 @@
 
 .no-data {
   color: #9ca3af;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   text-align: center;
   padding: 20px 0;
   margin: 0;
@@ -175,7 +175,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: white;
   flex-shrink: 0;
 }
@@ -209,7 +209,7 @@
 }
 
 .emp-name-detail {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 500;
   color: #111827;
   margin: 0;
@@ -218,7 +218,7 @@
 .status-badge {
   padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   font-weight: 500;
   flex-shrink: 0;
 }
@@ -238,7 +238,7 @@
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;

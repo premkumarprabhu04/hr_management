@@ -36,7 +36,7 @@
 
 .add-emp-header h2 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -45,7 +45,7 @@
 
 .add-emp-header p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #cbd5e1;
 }
 
@@ -59,7 +59,7 @@
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
   color: #cbd5e1;
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,19 +114,19 @@
   justify-content: center;
   align-items: center;
   color: #3b82f6;
-  font-size: 1.4rem;
+  font-size: 1.54rem;
 }
 
 .upload-info h3 {
   margin: 0 0 6px 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #0f172a;
 }
 
 .upload-info p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   color: #64748b;
 }
 
@@ -140,7 +140,7 @@
 
 .tab {
   padding: 12px 0;
-  font-size: 0.96rem;
+  font-size: 1.056rem;
   color: #64748b;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -159,7 +159,7 @@
 }
 
 .section-title {
-  font-size: 0.78rem;
+  font-size: 0.858rem;
   font-weight: 700;
   color: #64748b;
   letter-spacing: 0.08em;
@@ -196,7 +196,7 @@
 }
 
 .form-group label {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 600;
   color: #334155;
 }
@@ -211,7 +211,7 @@
   padding: 12px 14px;
   border: 1px solid #cbd5e1;
   border-radius: 12px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   color: #0f172a;
   outline: none;
   background-color: white;
@@ -255,7 +255,7 @@
 }
 
 .required-text {
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: #64748b;
 }
 
@@ -268,7 +268,7 @@
 .btn-save {
   padding: 10px 16px;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -312,7 +312,7 @@
 }
 
 .document-title {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #1e293b;
   display: flex;
@@ -321,7 +321,7 @@
 }
 
 .doc-icon {
-  font-size: 1.15rem;
+  font-size: 1.265rem;
 }
 
 .doc-icon.blue { color: #3b82f6; }
@@ -333,7 +333,7 @@
 .mandatory-badge {
   background-color: #fef2f2;
   color: #ef4444;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   padding: 5px 12px;
   border-radius: 14px;
   font-weight: 600;
@@ -342,7 +342,7 @@
 .applicable-badge, .optional-badge {
   background-color: #ecfdf5;
   color: #059669;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   padding: 5px 12px;
   border-radius: 14px;
   font-weight: 600;
@@ -374,7 +374,7 @@
 
 .upload-box-icon {
   color: #3b82f6;
-  font-size: 1.3rem;
+  font-size: 1.43rem;
 }
 
 .upload-box-text {
@@ -384,13 +384,13 @@
 
 .upload-box-text h4 {
   margin: 0 0 4px 0;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #1e293b;
 }
 
 .upload-box-text p {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: #64748b;
 }

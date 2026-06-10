@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './Login.css';
 
 const Login = ({ onLoginSuccess }) => {
@@ -9,6 +8,11 @@ const Login = ({ onLoginSuccess }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
+
+  const validCredentials = {
+    'prem@gmail.com': { password: 'Prem123', role: 'EMPLOYEE' },
+    'priya@gmail.com': { password: 'Priya123', role: 'HR' },
+  };
 
   const validate = () => {
     const errors = {};
@@ -32,28 +36,24 @@ const Login = ({ onLoginSuccess }) => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
     
     if (!validate()) return;
 
-    try {
-      // In a real app, this would hit the backend
-      // const response = await axios.post('http://localhost:8000/api/auth/login', {
-      //   email,
-      //   password
-      // });
-      // setSuccess(response.data.message);
-      
-      // For demonstration of the frontend dashboard:
-      setSuccess('Login successful');
-      if (onLoginSuccess) {
-        setTimeout(onLoginSuccess, 500); // short delay to show success message
-      }
-    } catch (err) {
-      setError(err.response?.data?.detail || 'Login failed');
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = validCredentials[normalizedEmail];
+
+    if (!user || user.password !== password) {
+      setError('Invalid email or password. Use prem@gmail.com / Prem123 or priya@gmail.com / Priya123.');
+      return;
+    }
+
+    setSuccess('Login successful');
+    if (onLoginSuccess) {
+      setTimeout(() => onLoginSuccess(user.role), 500);
     }
   };
 
@@ -79,17 +79,21 @@ const Login = ({ onLoginSuccess }) => {
           system for your organization.
         </p>
         
-        
         <div className="decorative-line"></div>
       </div>
 
       <div className="right-section">
         <div className="login-form">
           <h2 className="welcome-title">Welcome back</h2>
-          <p className="login-subtitle">Login to your HR account</p>
+          <p className="login-subtitle">Login to your portal</p>
 
           {error && <div className="error-message">{error}</div>}
           {success && <div className="success-message">{success}</div>}
+          <div className="demo-credentials">
+            <strong>Demo credentials:</strong>
+            <div>Employee - prem@gmail.com / Prem123</div>
+            <div>HR - priya@gmail.com / Priya123</div>
+          </div>
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
@@ -121,7 +125,7 @@ const Login = ({ onLoginSuccess }) => {
                   <path d="M7 9V6a3 3 0 016 0v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
                 <input 
-                  type={showPassword ? "text" : "password"} 
+                  type={showPassword ? 'text' : 'password'} 
                   placeholder="••••••••••••" 
                   value={password}
                   onChange={(e) => {

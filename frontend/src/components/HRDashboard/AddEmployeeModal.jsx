@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../../CustomDatePicker.css';
 import './AddEmployeeModal.css';
 
 const AddEmployeeModal = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('Personal Info');
+  const [dob, setDob] = useState(null);
+  const [doj, setDoj] = useState(new Date());
 
   if (!isOpen) return null;
 
@@ -67,8 +72,16 @@ const AddEmployeeModal = ({ isOpen, onClose }) => {
                   <div className="form-group">
                     <label>Date of Birth <span className="required">*</span></label>
                     <div className="input-with-icon">
-                      <input type="text" placeholder="dd-mm-yyyy" />
-                      <span className="input-icon">📅</span>
+                      <DatePicker 
+                        selected={dob} 
+                        onChange={(date) => setDob(date)} 
+                        placeholderText="dd-mm-yyyy"
+                        dateFormat="dd-MM-yyyy"
+                        showYearDropdown
+                        scrollableYearDropdown
+                        yearDropdownItemNumber={100}
+                      />
+                      <span className="input-icon" style={{ pointerEvents: 'none' }}>📅</span>
                     </div>
                   </div>
                   <div className="form-group">
@@ -138,8 +151,13 @@ const AddEmployeeModal = ({ isOpen, onClose }) => {
                   <div className="form-group">
                     <label>Date of Joining <span className="required">*</span></label>
                     <div className="input-with-icon">
-                      <input type="text" placeholder="dd-mm-yyyy" />
-                      <span className="input-icon">📅</span>
+                      <DatePicker 
+                        selected={doj} 
+                        onChange={(date) => setDoj(date)} 
+                        placeholderText="dd-mm-yyyy"
+                        dateFormat="dd-MM-yyyy"
+                      />
+                      <span className="input-icon" style={{ pointerEvents: 'none' }}>📅</span>
                     </div>
                   </div>
                 </div>

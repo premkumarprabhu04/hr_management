@@ -10,7 +10,7 @@
 }
 
 .attendance-date-selection label {
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   font-weight: 500;
   color: #374151;
 }
@@ -25,7 +25,7 @@
   padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   width: 100%;
   font-family: inherit;
   padding-right: 40px;
@@ -40,7 +40,7 @@
 .calendar-icon {
   position: absolute;
   right: 12px;
-  font-size: 1.2rem;
+  font-size: 1.32rem;
   pointer-events: none;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .attendance-section h3 {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 600;
   color: #111827;
   margin: 0 0 16px 0;
@@ -67,7 +67,7 @@
   padding: 10px 12px 10px 36px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-family: inherit;
   color: #111827;
   transition: all 0.2s;
@@ -128,7 +128,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.935rem;
   color: white;
   flex-shrink: 0;
 }
@@ -154,7 +154,7 @@
 }
 
 .attendance-row .emp-name {
-  font-size: 0.95rem;
+  font-size: 1.045rem;
   font-weight: 500;
   color: #111827;
 }
@@ -163,7 +163,7 @@
   padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.99rem;
   background: white;
   color: #111827;
   cursor: pointer;
